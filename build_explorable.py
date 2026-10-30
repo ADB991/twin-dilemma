@@ -72,7 +72,8 @@ def leak(clean):
     return {"cells": cells, "control": control, "rows": rows}
 
 
-def main(standalone_out=None):
+def load_rows():
+    """The answers as the page shows them, with the hand-read Llama choices folded in."""
     rows = []
     for r in map(json.loads, (HERE / "classified.jsonl").open()):
         row = {"m": r["model"], "c": r["condition"], "s": r["sample"], "ch": r["choice"],
@@ -83,6 +84,11 @@ def main(standalone_out=None):
             row["lab"] = ("correlation" if ch == "COOPERATE" and r["corr"]
                           else "dominance" if ch == "DEFECT" and r["dom"] else "other")
         rows.append(row)
+    return rows
+
+
+def main(standalone_out=None):
+    rows = load_rows()
     spot = [json.loads(l) for l in (HERE / "spotcheck.jsonl").open()]
     conditions = [{k: v for k, v in c.items() if k != "extra"} | {
         "prompt": run.prompt(c["id"]), "extra": c["extra"]} for c in CONDITIONS]

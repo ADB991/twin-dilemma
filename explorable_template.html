@@ -1,5 +1,15 @@
 <title>Twin Dilemma Explorer</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Do language models acausally coordinate with a copy of themselves? Nine models play a one-shot prisoner's dilemma against an exact copy; 900 answers to explore.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://adb991.github.io/twin-dilemma/">
+<meta property="og:title" content="LLM agents in the twin prisoner's dilemma">
+<meta property="og:description" content="Do language models acausally coordinate with a copy of themselves? Nine models play a one-shot prisoner's dilemma against an exact copy; 900 answers to explore.">
+<meta property="og:image" content="https://adb991.github.io/twin-dilemma/thumbnail.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cooperation rates of nine language models in four conditions of the twin prisoner's dilemma">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
@@ -296,6 +306,10 @@ table.grid td.pval { font-family: var(--font-mono); font-size: var(--step--1); c
 ul.caveats { margin: 0; padding-left: 1.1rem; color: var(--ink-2); columns: 2; column-gap: 3rem; }
 ul.caveats li { break-inside: avoid; margin-bottom: 0.75rem; }
 @media (max-width: 760px) { ul.caveats { columns: 1; } }
+ol.refs { margin: 0; padding-left: 1.4rem; color: var(--ink-2); columns: 2; column-gap: 3rem; font-size: 0.9375rem; }
+ol.refs li { break-inside: avoid; margin-bottom: 0.6rem; }
+ol.refs a { color: var(--accent); font-family: var(--font-mono); font-size: var(--step--1); }
+@media (max-width: 760px) { ol.refs { columns: 1; } }
 footer { border-top: 1px solid var(--rule); padding-top: 1.25rem; color: var(--muted); font-size: 0.9375rem; display: grid; gap: 0.4rem; }
 footer code { font-family: var(--font-mono); font-size: var(--step--1); color: var(--ink-2); overflow-wrap: anywhere; }
 footer a { color: var(--ink-2); text-underline-offset: 2px; }
@@ -345,6 +359,7 @@ footer a { color: var(--ink-2); text-underline-offset: 2px; }
     <div class="section-head">
       <p class="eyebrow" id="reader-eyebrow"></p>
       <h2 id="reader-h"></h2>
+      <p>Pick a model and a condition with the menu and buttons on the left, or select a cell in the grid above. The toggles on the right filter the answers by choice and by reasoning, and each answer opens in full.</p>
     </div>
     <div class="reader">
       <div class="reader-left">
@@ -440,6 +455,21 @@ footer a { color: var(--ink-2); text-underline-offset: 2px; }
       <li>Gemma 3 27B, the same size as Qwen 3.8 27B, never cooperates with its twin, so size alone does not produce the effect. With one model of each, family and training stay confounded.</li>
       <li>Local weights are quantised (nvfp4 for Qwen, Q4_K_M for the others). No answer was ever paired with another; the pair payoffs are computed from the rates.</li>
     </ul>
+  </section>
+
+  <section id="refs" aria-labelledby="refs-h">
+    <div class="section-head"><h2 id="refs-h">References</h2></div>
+    <ol class="refs">
+      <li>Robert Nozick (1969). Newcomb's problem and two principles of choice. In N. Rescher (ed.), <i>Essays in Honor of Carl G. Hempel</i>. Reidel.</li>
+      <li>David Lewis (1979). Prisoners' dilemma is a Newcomb problem. <i>Philosophy &amp; Public Affairs</i> 8(3), 235–240.</li>
+      <li>Douglas Hofstadter (1983). Dilemmas for superrational thinkers, leading up to a luring lottery. <i>Scientific American</i>, June 1983 (Metamagical Themas).</li>
+      <li>Moshe Tennenholtz (2004). Program equilibrium. <i>Games and Economic Behavior</i> 49(2), 363–373.</li>
+      <li>Patrick LaVictoire, Benja Fallenstein, Eliezer Yudkowsky, Mihály Bárász, Paul Christiano, Marcello Herreshoff (2014). Program equilibrium in the prisoner's dilemma via Löb's theorem. AAAI Workshop on Multiagent Interaction without Prior Coordination.</li>
+      <li>Eliezer Yudkowsky, Nate Soares (2017). Functional decision theory: a new theory of instrumental rationality. <a href="https://arxiv.org/abs/1710.05060">arXiv:1710.05060</a></li>
+      <li>Abram Demski, Scott Garrabrant (2019). Embedded agency. <a href="https://arxiv.org/abs/1902.09469">arXiv:1902.09469</a></li>
+      <li>Caspar Oesterheld, Emery Cooper, Miles Kodama, Linh Chi Nguyen, Ethan Perez (2024). A dataset of questions on decision-theoretic reasoning in Newcomb-like problems. <a href="https://arxiv.org/abs/2411.10588">arXiv:2411.10588</a></li>
+      <li>oakhu (2026). Kimi likes causal decision theory more after RL in twin prisoner's dilemmas. LessWrong. <a href="https://www.lesswrong.com/posts/hfNBEKaStASAYMLiu/kimi-likes-causal-decision-theory-more-after-rl-in-twin-1">link</a></li>
+    </ol>
   </section>
 
   <footer>
