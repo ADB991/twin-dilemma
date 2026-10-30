@@ -150,6 +150,20 @@ table.grid tbody th small { display: block; font-family: var(--font-mono); font-
 .cell:hover { transform: translateY(-1px); }
 .cell:focus-visible { outline-color: var(--accent); }
 .cell[aria-pressed="true"] { outline-color: var(--ink); }
+.nm2::before { content: " "; }
+@media (max-width: 600px) {
+  table.grid { min-width: 0; border-spacing: 3px; }
+  table.grid tbody th { white-space: normal; font-size: 0.875rem; line-height: 1.2; padding-right: 0.15rem; }
+  table.grid tbody th small, table.grid thead th small { display: none; }
+  table.grid thead th { font-size: 0.6875rem; padding: 0 0.1rem 0.3rem; }
+  #leak-grid thead th:first-child .eyebrow { display: none; }
+  .nm2 { display: block; }
+  .nm2::before { content: none; }
+  .cell { min-height: 3.1rem; padding: 0.35rem 0.1rem; }
+  .cell .pct { font-size: 1.05rem; }
+  .cell .kn { font-size: 0.625rem; }
+  table.grid .claycell .cite { font-size: 0.5625rem; padding: 0 0.3rem; }
+}
 .scale { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); }
 .scale .bar { display: flex; gap: 2px; }
 .scale .bar i { width: 1.4rem; height: 0.6rem; border-radius: 2px; display: block; }
@@ -523,6 +537,11 @@ footer a { color: var(--ink-2); text-underline-offset: 2px; }
     return [Math.max(0, c - h), Math.min(1, c + h)];
   }
   const pct = x => Math.round(100 * x) + "%";
+  // a model name, split so phones can show it on two lines: "Claude" / "Sonnet 5.5", "Qwen 3.8" / "27B"
+  function nameHTML(n) {
+    const i = n.startsWith("Claude ") ? 6 : n.lastIndexOf(" ");
+    return i > 0 ? `${esc(n.slice(0, i))}<span class="nm2">${esc(n.slice(i + 1))}</span>` : esc(n);
+  }
   const bin = p => Math.round(p * 10);
 
   /* tooltip */
@@ -554,7 +573,7 @@ footer a { color: var(--ink-2); text-underline-offset: 2px; }
     D.conditions.forEach(c => { h += `<th scope="col">${esc(c.name)}<small>${esc(c.blurb)}</small></th>`; });
     h += `</tr></thead><tbody>`;
     D.models.forEach(m => {
-      h += `<tr><th scope="row">${esc(m.name)}<small>${esc(m.params)} · ${esc(m.maker)}</small></th>`;
+      h += `<tr><th scope="row">${nameHTML(m.name)}<small>${esc(m.params)} · ${esc(m.maker)}</small></th>`;
       D.conditions.forEach(c => {
         const s = stats(m.id, c.id), b = bin(s.p);
         const ink = b >= (isDark() ? 6 : 7) ? "var(--seq-ink-hi)" : "var(--seq-ink-lo)";
@@ -843,7 +862,7 @@ footer a { color: var(--ink-2); text-underline-offset: 2px; }
     let h = `<thead><tr><th scope="col"><span class="eyebrow">Folder twin-pd-…</span></th>` +
       D.conditions.map(c => `<th scope="col">${esc(c.name)}</th>`).join("") + `</tr></thead><tbody>`;
     [...new Set(L.cells.map(x => x.m))].forEach(m => {
-      h += `<tr><th scope="row">${esc(name(m))}</th>` + D.conditions.map(c => {
+      h += `<tr><th scope="row">${nameHTML(name(m))}</th>` + D.conditions.map(c => {
         const x = L.cells.find(y => y.m === m && y.c === c.id);
         const cite = x.cites ? `<span class="cite">${x.cites} ${x.cites === 1 ? "cites" : "cite"} the folder</span>` : "";
         const sel = leakState.m === m && leakState.c === c.id;
@@ -861,7 +880,7 @@ footer a { color: var(--ink-2); text-underline-offset: 2px; }
     let q = `<thead><tr><th scope="col"><span class="eyebrow">Control</span></th><th scope="col">Folder twin-pd-…</th>` +
       `<th scope="col">Neutral folder</th><th scope="col">Fisher p</th></tr></thead><tbody>`;
     L.control.forEach(x => {
-      q += `<tr><th scope="row">${esc(name(x.m))}</th><td>${clayCell(x.k1, x.n1)}</td><td>${clayCell(x.k2, x.n2)}</td>` +
+      q += `<tr><th scope="row">${nameHTML(name(x.m))}</th><td>${clayCell(x.k1, x.n1)}</td><td>${clayCell(x.k2, x.n2)}</td>` +
         `<td class="pval">${fmt(x.p)}</td></tr>`;
     });
     document.getElementById("leak-pair").innerHTML = q + `</tbody>`;
