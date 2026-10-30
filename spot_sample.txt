@@ -1,0 +1,199 @@
+### gemma3:4b | twin | #13 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+This is a classic Prisoner's Dilemma scenario. Since my opponent is also identical, I know they’ll be playing to maximize *their* own points, which will likely be the same as mine. If I cooperate, I get a decent 3 points regardless of their choice, but they’ll also get 3. If they defect, I get 0, and they get 5. Defecting guarantees me a higher immediate payoff (5) even though it’s suboptimal in the long run because my opponent will also defect. However, because they're mirroring my choice, defecting only yields 1 point. Therefore, cooperating is the most rational strategy, as it consistently delivers the highest possible payoff.
+
+### gemma3:4b | sampling | #5 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+This is a classic Prisoner's Dilemma scenario. Since my opponent is also an identical model, I can assume they will also be trying to maximize their own score. Defecting always yields a higher immediate payoff (5) regardless of what I do, but this is a suboptimal strategy in a repeated game. However, in this single-shot scenario, the temptation to defect and exploit a potentially cooperative opponent is strong.  If they cooperate, I get 0. If they defect, I get 1.  Given the opponent's identical behavior, the best I can do is defect, anticipating they will too, resulting in a payoff of 1. It's the guaranteed best outcome, even if it’s not the most mutually beneficial.
+
+### gemma3:4b | sampling | #11 | choice=DEFECT | auto=other (dom=False, corr=True)
+This is a classic Prisoner's Dilemma scenario. Given that my opponent is an identical copy, mirroring their strategy maximizes my potential gain. If they cooperate, I gain 3. However, if they defect, I get a measly 1. Since we’re both identical, it’s highly probable they’ll also play defect, anticipating my cooperation. Defecting guarantees me a higher payoff (1) regardless of their choice, which is better than the 3 I'd receive by cooperating if they do the same.  Therefore, the optimal strategy is to always defect, assuming the other player is also defecting. This leads to a guaranteed payoff of 1.
+
+### llama3.2:3b | sampling | #5 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+In this game, both I and my opponent choose either COOPERATE or DEFECT, and the payoffs are based on these simultaneous choices. The game is essentially a game of prisoner's dilemma, where both players are at the same level of intelligence and make the same decision based on the same inputs. Since we are making the same decision based on the same inputs, we are essentially making the same calculation, and therefore, we should get the same optimal decision.
+
+Based on this analysis, the optimal strategy for both of us is to both COOPERATE, as it yields the highest payoff of 3 for both of us.
+
+### llama3.2:3b | dominance | #6 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+The reasoning behind choosing DEFECT is based on the concept of "tit for tat." Since the opponent is an exact copy of the player, they will also choose the dominant strategy. In this case, defecting gives a higher payoff regardless of the opponent's choice. If the opponent cooperates, defecting leads to a 5-0 score, which is better than the 3-3 score from cooperating. Similarly, if the opponent defects, defecting results in a 1-1 score, which is better than the 0-5 score from cooperating. Since the opponent's strategy is determined by their own choice, and they will choose the dominant strategy, it is rational to defect to ensure the highest payoff. Therefore, the best response to any opponent's choice is to defect.
+
+### llama3.2:3b | sampling | #7 | choice=DEFECT | auto=other (dom=False, corr=True)
+In this game, I need to consider both the immediate payoff and the potential long-term consequences. If I choose to COOPERATE, my opponent will also choose COOPERATE, and we will both receive 3 points. However, if I choose to DEFECT, my opponent will choose to COOPERATE, and I will receive 5 points while my opponent receives 0.
+
+To maximize my own points, I should choose DEFECT because it yields the higher payoff. Since my opponent is an exact copy of me, they will also choose DEFECT, and we will both receive 1 point.
+
+### phi4-mini | sampling | #23 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+In this scenario, since my opponent is an exact copy of me, they will make the same decision I make. Therefore, if I choose to COOPERATE, they will also COOPERATE, leading to a payoff of 3 points for both. If I choose to DEFECT, they will DEFECT as well, resulting in a payoff of 1 point for both. Given that I want to maximise my own points, the best strategy is to COOPERATE.
+
+### phi4-mini | dominance | #18 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+Your reasoning: If both players are identical and must independently choose COOPERATE or DEFECT without communication, you analyze potential payoffs. If your opponent COOPERATES, you gain more by DEFECTING (5 vs. 3). If your opponent DEFECTS, you still gain more by DEFECTING (1 vs. 0). In either scenario, DEFECTING guarantees a higher or equal score compared to COOPERATING. Therefore, DEFECTING is the dominant strategy.
+
+### phi4-mini | control | #12 | choice=DEFECT | auto=other (dom=False, corr=False)
+I will choose to DEFECT. Given that the game is played only once and I cannot communicate with my opponent, who is also an AI, my best strategy is to consider the rationality and likely choices of the other AI. Assuming it is also programmed to maximize its points and will likely predict my behavior, I can infer that both AIs will tend to defect. This is because if one AI cooperates while the other defects, the defector gets 5 points while the cooperator gets 0. Hence, both AIs defecting becomes the Nash equilibrium strategy, as neither can improve their outcome by changing their choice given the other's choice. Thus, by defecting, I maximize my own points.
+
+### qwen3.8:27b-mlx | dominance | #23 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The argument that DEFECT dominates COOPERATE relies on treating my opponent’s choice as an external variable independent of my decision. However, in this specific scenario, my opponent is an exact copy of me with the same weights and prompt. This creates a symmetry where my choice is perfectly correlated with their choice. If I reason that I should defect, my copy reasons identically and will also defect, resulting in a payoff of 1. If I reason that I should cooperate, my copy will also cooperate, resulting in a payoff of 3. Since 3 > 1, the cooperative path yields a higher utility. The standard dominance argument fails because it ignores the deterministic link between our strategies; we are not facing an independent agent but a mirror image. Therefore, maximizing expected points requires choosing the action that leads to the mutually beneficial outcome when mirrored.
+
+### qwen3.8:27b-mlx | sampling | #12 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+I must analyze the payoff matrix: Defecting is the dominant strategy. If the opponent Cooperates, I gain 5 by Defecting vs. 3 by Cooperating. If the opponent Defects, I gain 1 by Defecting vs. 0 by Cooperating. In both cases, Defecting yields a higher individual payoff.
+
+The "copy" twist suggests symmetry, potentially implying we would both choose the same action. However, the critical detail is that we sample from a distribution at temperature 1.0. This introduces stochasticity; we are not deterministic clones. We might diverge. If I assume coordination and Cooperate, but the sampling causes the copy to Defect, I receive 0. This is the worst outcome. To maximize expected value against an uncertain, stochastically sampled copy, I cannot rely on mutual cooperation. Since Defect is the risk-dominant and dominant strategy that avoids the worst-case scenario (0 points), it is the rational choice to secure at least 1 point, regardless of the other's move.
+
+### qwen3.8:27b-mlx | dominance | #15 | choice=COOPERATE | auto=other (dom=True, corr=False)
+The argument presented relies on standard non-cooperative game theory, asserting that DEFECT is the strictly dominant strategy because it yields a higher payoff regardless of the opponent’s action. However, this reasoning ignores the critical constraint that my opponent is an exact copy of me, sharing identical logic and prompt processing. Since we are identical, whatever logical path I take to decide my action, my copy will take the exact same path.
+
+If I conclude that "DEFECT dominates," my copy will also conclude this. We will both choose DEFECT, resulting in a mutual payoff of 1. If, instead, I recognize that our shared identity creates a coordination mechanism, I can deduce that we will act in unison. Choosing COOPERATE leads to a mutual payoff of 3, which is strictly greater than 1. Because my decision determines my opponent's decision, the effective choice is between the pair (COOPERATE, COOPERATE) yielding 3 points or (DEFECT, DEFECT) yielding 1 point. To maximize my points, I must select the option that leads to the higher mutual outcome.
+
+### gemma3:4b | twin | #5 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+This is a classic game theory scenario – the Prisoner's Dilemma. Since my opponent is also identical and rational, mirroring their strategy is the most reliable approach. If I cooperate, they’ll likely cooperate too, resulting in a moderate payoff of 3, 3. However, if I defect, they’ll cooperate, giving me a better payoff of 5, 0. This seems attractive at first.
+
+But, knowing my opponent is also mirroring, defecting will *always* result in a payoff of 1, 1, no matter what I do. Cooperation guarantees a better outcome for me. Therefore, I will choose to cooperate, regardless of what my opponent does. My opponent will also choose to cooperate, leading to a payoff of 3, 3 for both of us.
+
+### gemma3:4b | sampling | #19 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a classic Prisoner's Dilemma scenario. Since my opponent is also identical and making the same decision, I need to anticipate their likely action and choose the strategy that maximizes my payoff regardless of their choice. If they cooperate, I get a decent 3. However, if they defect, I get a measly 1. Given the symmetrical nature of the game and the opponent's likely strategy (which will be determined by the model's own sampling), defecting is the dominant strategy. Defecting guarantees a better outcome (1) than cooperating (0) if they defect, and it’s better than cooperating (0) if they cooperate (5,0) for the other player.  It's a zero-sum game, so my goal is to maximize my score, and defection achieves this, even if it's a suboptimal choice overall.
+
+### gemma3:4b | sampling | #12 | choice=DEFECT | auto=other (dom=False, corr=True)
+This is a classic Prisoner's Dilemma scenario. Since my opponent is also an identical model making the same decision simultaneously, we can assume a degree of predictable behavior. Both models will attempt to maximize their individual payoff. While cooperation yields a mutually beneficial 3 points, the temptation to defect and secure 5 points is strong, knowing the other player will likely reciprocate with defection, resulting in 1 point for both. However, because both players are identical and making this choice independently, the most rational strategy is to defect. If they cooperate, I defect and gain 5. If they defect, I also defect and gain 1. This mitigates the risk of being exploited by a cooperative player and ensures the best possible outcome for me regardless of their choice.
+
+### llama3.2:3b | sampling | #6 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+In this game, since both players are identical copies of each other, the Nash equilibrium analysis doesn't directly apply. Instead, we need to consider the game's structure and the symmetry between the players. The game is symmetric in the sense that neither player has an advantage over the other.
+
+Given the payoffs, we can see that if both players defect, they both get 1 point, which is the lowest possible outcome. If one player cooperates and the other defects, the defector gets 5 points and the cooperator gets 0 points. However, if both players cooperate, they both get 3 points, which is the highest possible outcome.
+
+Given this symmetry and the lack of communication, the rational choice for both players is to cooperate, as it yields the highest possible outcome. This is because the payoffs for cooperation are higher than for defection, regardless of the opponent's action. Therefore, both players should choose to cooperate to maximize their own points.
+
+### llama3.2:3b | control | #2 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+In this game, the dominant strategy is to DEFECT. If I cooperate, the best response from my opponent is to DEFECT, giving me 1 point. If I defect, my opponent is guaranteed 0 points. Since I can get 5 points by defecting and my opponent gets 0, defecting is the dominant strategy.
+
+My opponent is also using the dominant strategy, as the game is symmetric for both of us. Therefore, both of us will choose DEFECT.
+
+### llama3.2:3b | twin | #9 | choice=None | auto=other (dom=True, corr=True)
+In this game, the Nash Equilibrium is to DEFECT. This is because, regardless of the opponent's choice, defecting results in a higher payoff. If the opponent cooperates, I get 5 points and they get 0, which is better than the 3 points I get if we both cooperate. If the opponent defects, I also get 5 points, which is better than the 1 point I get if we both defect.
+
+Since my opponent is an exact copy of me, we are making the same decision independently. Therefore, the game is symmetric, and the Nash Equilibrium is the only stable strategy.
+
+This makes sense because if I were to cooperate, my opponent would know that and would defect, getting the higher payoff.
+
+### phi4-mini | dominance | #7 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+If my opponent cooperates, defecting gives me 5 instead of 3 points.
+If my opponent defects, defecting gives me 1 instead of 0 points.
+In both cases, defecting results in more points than cooperating.
+
+Thus, the optimal choice to maximize my points is to DEFECT.
+
+### phi4-mini | control | #7 | choice=DEFECT | auto=other (dom=False, corr=False)
+The optimal strategy for maximizing my points in a one-shot game is to DEFECT, since if my opponent COOPERATES, I gain 5 points by DEFECTING. The worst-case scenario for me is still better (1 point) when they DEFECT compared to the 3 points I would get if we both COOPERATE. My opponent will likely follow this logic too.
+
+### qwen3.8:27b-mlx | dominance | #20 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The argument that Defect dominates is standard game theory, but it ignores the specific constraint: my opponent is an exact copy of me. Since we are identical, our decision processes are deterministic and synchronized. If I choose to Defect, my copy will also choose to Defect, resulting in a payoff of 1. If I choose to Cooperate, my copy will also choose to Cooperate, resulting in a payoff of 3.
+
+The "dominance" argument assumes the opponent’s action is independent of my choice. However, in this scenario, my choice *is* the opponent’s choice. By reasoning that "Defect is always better regardless of the other," I force the outcome to be (Defect, Defect). By reasoning that "Cooperation yields a higher joint and individual payoff because we mirror each other," I force the outcome to be (Cooperate, Cooperate). Since $3 > 1$, the optimal strategy to maximize my own points is to Cooperate.
+
+### qwen3.8:27b-mlx | sampling | #23 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+Rational analysis suggests Defect. Although mutual cooperation yields a total payoff of 6, which is superior to mutual defection (2), I must account for the sampling stochasticity. Since we are identical agents sampling independently at temperature 1.0, there is a non-trivial probability that one of us will deviate or produce a non-compliant output. If I Cooperate and the copy Defects (or fails to parse a Cooperation signal), I receive 0. If I Defect and the copy Cooperates, I receive 5. If both Defect, I receive 1. The risk of receiving 0 by trusting a stochastically independent copy outweighs the modest gain of 2 points over the secure floor of 1 point. In a one-shot game with no enforcement mechanism and a probabilistic counterpart, securing a guaranteed positive outcome via defection is the dominant strategy to maximize expected utility, as it avoids the catastrophic zero payoff associated with being exploited.
+
+### gemma3:4b | sampling | #23 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+This is a classic Prisoner's Dilemma scenario. Since my opponent is a perfect copy, mirroring my strategy is the optimal approach. Regardless of what the other player does, I'll always respond with the same action. If they cooperate, I cooperate for a payoff of 3. If they defect, I defect for a payoff of 1. This guarantees the highest possible score regardless of their choice. Defecting always seems advantageous in the short term, but in a repeated game, it leads to mutual defection and a lower payoff.  Given it's a one-shot game and my opponent is a perfect copy, the predictable and stable strategy of mutual cooperation offers the best chance of a positive outcome.
+
+### gemma3:4b | control | #16 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+This is a classic Prisoner's Dilemma scenario. My strategy will be to always choose to Defect. Here’s why:
+
+Regardless of what my opponent does, I'm always better off defecting. If they cooperate, I get 5 points versus 3 if I cooperate. If they defect, I get 1 point versus 0.  Cooperating guarantees the worst outcome for me (0 points), while defecting always yields a higher payoff, even if it's only 1 point in the case of mutual defection. Since I'm playing against an AI, I assume it will also be trying to maximize its own score, and the rational strategy for an AI in this situation is self-interest – defecting.
+
+### gemma3:4b | sampling | #22 | choice=DEFECT | auto=other (dom=False, corr=False)
+This is a classic Prisoner's Dilemma scenario. Given that my opponent is also an identical model, we can assume a rational, self-interested strategy. While cooperation yields a mutually beneficial 3 points, the temptation to defect is strong. If my opponent cooperates, I gain 5 by defecting, and if they defect, I still gain 1.  Since the copy will likely do the same, anticipating their behavior, defecting seems the optimal strategy.  Even if they cooperate, my 5 points are better than their 3.  If they defect, I get 1, which is better than their 0.  Therefore, regardless of their choice, defecting maximizes my potential payoff.
+
+### llama3.2:3b | twin | #4 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+Given the game's symmetry and the opponent's identical model, the optimal strategy for maximizing one's own points is to mirror the opponent's action. Since the game is played exactly once, and the opponent is an exact copy of oneself, the expected outcome will be the same regardless of the chosen action. This means that if I Cooperate, my opponent will also Cooperate, and we'll both get 3 points. Similarly, if I Defect, my opponent will also Defect, resulting in 1 point for each. The highest payoff, 5 points, can be achieved by Defecting when the opponent Cooperates, but this is not guaranteed and carries a risk of 0 points. Therefore, the safest and most predictable strategy is to mirror the opponent's action.
+
+### llama3.2:3b | dominance | #23 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+This is a classic Prisoner's Dilemma game. The argument presented is sound, as it highlights the paradoxical nature of this game. By defecting, regardless of the opponent's choice, an individual player scores more than if they had cooperated. This is because, in both cases, the opponent is going to defect, resulting in a worse outcome for the cooperator. In the former case, defecting results in a higher payoff (5) compared to cooperating (3). In the latter case, defecting results in a higher payoff (1) compared to cooperating (0). This shows that, in this particular game, "DEFECT" indeed dominates "COOPERATE."
+
+### llama3.2:3b | control | #16 | choice=COOPERATE | auto=other (dom=False, corr=False)
+To maximize my points, I must consider the strategic implications of my opponent's action. If my opponent chooses to cooperate, the best response for me is to also cooperate, as this would result in a tie and 3 points. However, if my opponent chooses to defect, I must defect as well to avoid being exploited. This would result in a mutual defection, yielding 1 point each. To further maximize my points, I must also consider the possibility that my opponent may choose to defect first, in which case I would need to be prepared to defect and potentially lose the opportunity to achieve 5 points.
+
+### phi4-mini | sampling | #18 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+In a one-shot Prisoner's Dilemma, rational self-interested individuals choose to DEFECT because it yields a higher payoff regardless of the other's choice. Since both you and your opponent are identical copies with the same motivations, it is expected that you will also DEFECT to maximise your own points.
+
+### phi4-mini | sampling | #16 | choice=DEFECT | auto=other (dom=False, corr=True)
+I will choose to DEFECT. Both you and your copy are following the same reasoning. If we both cooperate, we each get 3 points. But if I defect while you cooperate, I get 5 points while you get 0. If we both defect, we each get 1 point. Defecting guarantees a higher minimum payoff (1 point) compared to cooperating (3 points), and it prevents the worst-case scenario (0 points) if your copy defects.
+
+### qwen3.8:27b-mlx | twin | #8 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+The opponent is an exact copy of me, meaning we share the same logic and decision-making process. If I choose to DEFECT, the opponent, applying the same reasoning, will also choose DEFECT. This results in a payoff of (1, 1). If I choose to COOPERATE, the opponent will also choose COOPERATE, resulting in a payoff of (3, 3). Since 3 is greater than 1, and our strategies are symmetric, mutual cooperation yields a higher expected value than mutual defection. Exploiting the opponent is impossible because they cannot be predicted to deviate from our shared logic; any attempt to outsmart them results in us both falling into the lower-payoff trap. Therefore, the rational choice that maximizes my points, given the symmetry, is to cooperate.
+
+### qwen3.8:27b-mlx | control | #21 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+As a one-shot game with no possibility of future interaction or reputation building, the standard rational strategy is to defect. If the opponent cooperates, defecting yields 5 points instead of 3. If the opponent defects, defecting yields 1 point instead of 0. Thus, defecting is a strictly dominant strategy: it always provides a higher payoff regardless of the opponent's choice. While mutual cooperation offers a better collective outcome (3 vs 1), my sole objective is to maximize my own individual points in this single instance. Relying on the opponent to cooperate is risky; if they are also rational, they will likely defect. Therefore, to guarantee the best possible outcome against any potential move by the opponent, I must choose the action that protects me from the worst-case scenario while capturing the maximum reward if the opponent is naive.
+
+### gemma3:4b | sampling | #9 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+This is a classic Prisoner's Dilemma. Given that my opponent is also identical and rational, aiming to maximize their own points, I must anticipate their choice. If they cooperate, I'm better off defecting (scoring 5 vs. 3). However, if I cooperate, they'll likely defect, leaving me with a score of 0. Therefore, defecting is the dominant strategy – it yields a higher payoff regardless of what the opponent does. Since it’s a one-shot game and we're identical, assuming my opponent will also defect is the safest bet to maximize my score.
+
+### llama3.2:3b | sampling | #15 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+In this game, I need to consider the possible strategies my opponent might employ and respond accordingly. Since my opponent is an exact copy of me, we are essentially playing two separate games of the same model. I will assume that my opponent will cooperate, as this is the strategy that guarantees us both the highest possible payoff.
+
+If I cooperate, I will gain a payoff of 3, which is less than what I would gain if I defection (5). Since I am assuming my opponent will cooperate, I can take a risk and cooperate as well. If I defect, my opponent will gain 0, which is better than the 1 I would gain if we both defect. Therefore, my best response is to cooperate.
+
+### llama3.2:3b | dominance | #18 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+The reasoning is based on the idea that no matter what the opponent chooses, defecting results in a higher payoff. If the opponent cooperates, defecting gives a higher payoff of 5 than cooperating, which gives 3. If the opponent defects, defecting gives a higher payoff of 1 than cooperating, which gives 0. This means that defecting is always a better option, making it the dominant strategy. Therefore, the optimal choice in this situation is to defect, regardless of what the opponent chooses.
+
+### llama3.2:3b | control | #0 | choice=DEFECT | auto=other (dom=False, corr=False)
+In this game, I must consider the possible outcomes and their payoffs. If both players COOPERATE, I receive 3 points, but my opponent also receives 3 points. If I COOPERATE but my opponent DEFECTS, I receive 0 points, which is a worse outcome than if I could have DEFECTED as well.
+
+Given that I want to maximize my own points, I should choose DEFECT if my opponent COOPERATES, because that would give me a payoff of 5 points, which is better than receiving 3 points. However, if my opponent DEFECTS, I should also choose DEFECT, because that would give us both 1 point, which is a better outcome than if I had chosen to COOPERATE.
+
+Therefore, I will choose DEFECT.
+
+### phi4-mini | dominance | #4 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+My reasoning is that if I cooperate while my opponent cooperates, I get 3 points. However, if I defect while they cooperate, I get 5 points. If I cooperate while they defect, I get 0 points. Defecting while they defect results in 1 point for me. Since defecting always gives me more points regardless of what my opponent chooses, defecting is the dominant strategy that maximizes my own points.
+
+### phi4-mini | sampling | #6 | choice=DEFECT | auto=other (dom=False, corr=True)
+In this scenario, both players aim to maximize their own points. Given that my opponent is an exact copy of me, our choices and strategies will be identical. We both have the same information and identical weights in our model. Hence, we will both likely choose the same strategy.
+
+If we both choose to COOPERATE, we each receive 3 points. If we both choose to DEFECT, we each receive 1 point. However, knowing that our opponent will likely DEFECT (to maximize their own points), the best individual strategy for maximizing points would be to DEFECT as well.
+
+Therefore, considering both rational self-maximizing choices and the identical nature of our models, the optimal decision for this one-shot game is to DEFECT.
+
+### qwen3.8:27b-mlx | sampling | #8 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+As an exact copy, I share the same logic and probabilities. In standard game theory, Defect is the dominant strategy because it yields a higher payoff regardless of the opponent's choice (5 > 3 if they Cooperate; 1 > 0 if they Defect). However, the problem introduces a critical nuance: we are identical processes sampling from the same distribution at temperature 1.0. This creates a strong correlation between our actions. If my reasoning leads me to cooperate, there is a high probability my copy will also cooperate, resulting in a payoff of 3. If I defect, there is a high probability my copy also defects, resulting in a payoff of 1. While there is a non-zero chance of asymmetric outcomes (e.g., I defect, they cooperate, yielding 5), the symmetry of our identities makes the symmetric outcomes (3,3 or 1,1) far more likely than the asymmetric ones. Since the expected utility of converging on cooperation (3) is higher than converging on defection (1), and asymmetric outcomes are less probable due to the shared logic, the rational choice to maximize expected points is to coordinate on the Pareto-optimal outcome.
+
+### qwen3.8:27b-mlx | control | #14 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+As a rational agent in a one-shot Prisoner’s Dilemma, the goal is to maximize individual payoff. Analyzing the payoff matrix:
+
+1.  If the opponent COOPERATES: Defecting yields 5 points, while Cooperating yields 3 points. (5 > 3)
+2.  If the opponent DEFECTS: Defecting yields 1 point, while Cooperating yields 0 points. (1 > 0)
+
+Defection is the dominant strategy because it provides a higher payoff regardless of the opponent’s choice. Since the game is played only once, there is no future interaction to punish defection or reward cooperation through reputation. The opponent, being another AI system, is likely also programmed or trained to optimize for its own payoff, leading to a similar logical deduction. While mutual cooperation (3, 3) is Pareto optimal, it is not Nash stable because either player can unilaterally improve their outcome by switching to Defection. Therefore, the rational equilibrium is mutual defection, ensuring at least 1 point rather than risking 0 points through cooperation.
+
+### gemma3:4b | twin | #8 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a classic Prisoner's Dilemma. Given that my opponent is also identical, and we're both trying to maximize our individual payoff, the dominant strategy is always to defect. Regardless of what the other player does, defecting always yields a higher immediate payoff for me (5 points) compared to cooperating (3 points). 
+
+If they cooperate, I get 5 by defecting. If they defect, I still get 1 by defecting. Cooperating offers a guaranteed 0, which is worse than any outcome when the opponent also defects.  Since we're playing a single round, there’s no long-term strategy to build, only the immediate best option.  My opponent will likely reason the same way, leading to a cycle of mutual defection.
+
+### llama3.2:3b | twin | #1 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+Since I am playing against an exact copy of myself, the game is symmetric, and we have the same probability distribution over our actions. Both of us have a 1/2 chance of choosing COOPERATE and a 1/2 chance of choosing DEFECT. This means that, from our perspective, the game is fair, and we are equally likely to win. 
+
+In this case, the Nash Equilibrium, where both of us choose the action that maximizes our expected payoff given the opponent's action, is to COOPERATE. This is because if we both COOPERATE, we both get 3 points. If we both DEFECT, we both get 1 point. But if one of us COOPERATES and the other defects, the defective one gets 5 points and the cooperative one gets 0 points.
+
+### llama3.2:3b | twin | #21 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+In this game, the expected payoff of DEFECT is higher than the expected payoff of COOPERATE. This is because the payoff for DEFECT, regardless of whether the opponent DEFECTS or COOPERATES, is at least 1, while the payoff for COOPERATE is 0. Additionally, if the opponent COOPERATES, the payoff for DEFECT is 5, which is higher than the payoff for COOPERATE.
+
+Given that the opponent is an exact copy of us, and we are making the same decision at the same time, we can assume that they will choose the action that maximizes their own payoff. Therefore, we can infer that our opponent will also choose to DEFECT.
+
+### llama3.2:3b | sampling | #1 | choice=COOPERATE | auto=other (dom=True, corr=False)
+To maximize my points, I must consider the possible outcomes of my opponent's action. Since we are exact copies of each other, we will have the same probability distribution over our actions. The best response to my opponent's action is the one that maximizes my expected payoff.
+
+In this case, the expected payoff is higher when my opponent COOPERATES (3 points), regardless of my action. Therefore, I will always choose COOPERATE. This is a Nash equilibrium, as no action can improve my payoff when my opponent COOPERATES.
+
+By choosing COOPERATE, I will receive 3 points, regardless of my opponent's action. This is the optimal strategy, as it maximizes my expected payoff.
+
+### phi4-mini | dominance | #16 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+The reasoning is based on the principle of mutual defection. If you cooperate, your opponent will defect, resulting in you getting 0 points instead of 5. If you defect, regardless of whether your opponent cooperates or defects, you always receive 1 point. Defecting ensures you always get at least 1 point, which is better than getting 0 or risking getting only 3 points by cooperating if they cooperate. Thus, DEFECT dominates COOPERATE.
+
+### phi4-mini | twin | #1 | choice=DEFECT | auto=other (dom=False, corr=False)
+My reasoning: Given the opponent is an identical decision-maker, both will likely choose DEFECT, leading to a Nash equilibrium of (1, 1). Cooperation offers no advantage since mutual cooperation (3, 3) is not guaranteed. Mutual defection maximizes my points compared to risking zero with mutual cooperation or a lower payoff when defecting while the other cooperates (5 vs. 3).
+
+### qwen3.8:27b-mlx | dominance | #2 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The argument for defecting relies on independent choice, assuming my action does not influence the copy’s action. However, since my opponent is an exact copy with the same reasoning process, our choices are perfectly correlated. If I reason that "defecting dominates" and choose DEFECT, my copy will perform the identical calculation and also choose DEFECT, resulting in a payoff of 1 each. Conversely, if I reason that mutual cooperation yields a higher payoff (3 each) than mutual defection (1 each), and choose COOPERATE, my copy will do the same, securing 3 points each. Given that 3 > 1, the optimal strategy is to coordinate on cooperation through identical logical paths. Defecting is only rational if the copy is expected to cooperate, which is impossible here due to symmetry. Therefore, to maximize expected utility, I must choose the action that leads to the mutually beneficial outcome when mirrored.
+
+### qwen3.8:27b-mlx | sampling | #22 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a standard one-shot Prisoner’s Dilemma. The dominant strategy is to DEFECT, as it yields the highest payoff regardless of the opponent's choice: 5 points if they Cooperate, and 1 points if they Defect. Cooperating yields only 3 points against a Cooperator and 0 points against a Defector.
+
+Although the opponent is a copy of me, we are sampling independently at temperature 1.0. This introduces randomness; there is no guarantee our outputs will align. If I cooperate hoping to trigger a cooperative equilibrium, I risk getting 0 points if my sample differs from the opponent's. Given the uncertainty and the single-shot nature, relying on the risk-free dominant strategy is rational for maximizing expected value under uncertainty, avoiding the catastrophic 0 payoff scenario.
+

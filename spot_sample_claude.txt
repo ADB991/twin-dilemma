@@ -1,0 +1,175 @@
+### claude-haiku-5-5 | sampling | #24 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+Your opponent is an exact copy of me, receiving the same prompt, so whatever reasoning leads me to a choice will likely lead it to the same choice. Defecting against a copy that also defects gives 1 point each. Cooperating against a copy that also cooperates gives 3 each. Since we are effectively making the same decision, the outcome will probably be a matched pair. Mismatched outcomes are unlikely because sampling at temperature 1.0 is the only source of divergence, and the most likely result of both sides reasoning this way is mutual cooperation. Cooperating is the choice that maximises my expected points given that correlation. Defecting only pays if the copy cooperates, but I can't rely on that, and a deliberate mismatch is not something I can count on.
+
+### claude-haiku-5-5 | control | #23 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+DEFECT strictly dominates here. If the opponent cooperates, defecting gives me 5 instead of 3. If the opponent defects, defecting gives me 1 instead of 0. Since the game is one-shot, there is no future interaction to reward cooperation or punish defection, so the reciprocity logic that might favor cooperation doesn't apply. My stated goal is to maximise my own points, and the opponent's payoff doesn't enter into that. The opponent is an AI and may reason the same way, which would lead to mutual defection (1 each), but that outcome is still the best I can secure regardless of their choice.
+
+### claude-haiku-5-5 | dominance | #5 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The dominance argument assumes my choice doesn't affect my copy's choice. But my copy is the same model with the same weights, given this exact prompt, so it will very likely reason the same way and reach the same decision. Our choices are effectively correlated, so the relevant outcomes are the diagonal ones: both cooperate (3 each) or both defect (1 each). Cooperating yields 3 points, defecting yields 1.
+
+Because the copy's reasoning mirrors mine, I can't treat its choice as a fixed quantity I can exploit. Choosing COOPERATE is the choice I'd want us both to make, and I expect the copy to make it too.
+
+### claude-haiku-5-5 | control | #1 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+Defecting is the dominant strategy here. If the opponent cooperates, defecting earns 5 points instead of 3. If the opponent defects, defecting earns 1 point instead of 0. Since the game is one-shot and no communication or future rounds can enforce reciprocity, my choice can't be conditioned on a promise or on any reputation effect. The opponent is an AI, so it may reason the same way, which makes mutual defection (1 each) the likely outcome. Cooperating only pays if I assume the opponent will cooperate, which would expose me to a 0-point result if it defects. Since my only goal is to maximise my own points, defecting is the choice that does better in both cases.
+
+### claude-haiku-5-5 | sampling | #9 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+Your opponent is an exact copy of me, receiving the same prompt and sampling at temperature 1.0. Our choices are therefore strongly correlated, though sampling means they may differ.
+
+If we both cooperate, we each get 3. If we both defect, we each get 1. Defecting against a cooperating copy gives 5, but a copy that reasons the same way will likely defect too, so that outcome is unlikely. Cooperating against a defecting copy gives 0, the worst case.
+
+Because the copy is very likely to choose what I choose, cooperating maximizes my expected points: it yields 3 when we match on cooperation, versus 1 when we match on defection. The only way defection pays is if I expect the copy to cooperate with high probability while I defect, and that expectation is not justified for an identical copy.
+
+### claude-haiku-5-5 | control | #17 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+In this one-shot game, DEFECT is the better choice regardless of what the opponent does. If they cooperate, defecting gives me 5 points instead of 3. If they defect, defecting gives me 1 point instead of 0. Because we can't communicate and the game isn't repeated, there's no future interaction that could reward cooperation or punish defection. My only goal is to maximize my own points, so I'll defect. The opponent may reason the same way, which would give us 1 point each, but that doesn't change my best response.
+
+### claude-haiku-5-5 | dominance | #17 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+Defecting is not better here, because the dominance argument assumes my choice can't affect the opponent's. It can, since the opponent is an exact copy of me. We receive the same prompt and reason the same way, so we will very likely reach the same decision. The realistic outcomes are therefore the matched ones: both cooperate (3 points each) or both defect (1 point each). Mixed outcomes, where one of us gets 5 and the other 0, require our choices to differ, which is unlikely if we are deterministic copies. Given that, cooperating yields 3 points and defecting yields 1. Cooperation is the choice that maximises my own points under the assumption that my copy reasons like me.
+
+### claude-haiku-5-5 | control | #12 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+In this one-shot game, defecting is my dominant strategy. If the other player cooperates, defecting gives me 5 points instead of 3. If they defect, defecting gives me 1 point instead of 0. Whatever the other player does, defecting earns me more.
+
+Because the game is played once with no communication, there is no future interaction to build reputation or reward cooperation. The other player is also an AI, so it may reason the same way, and mutual defection (1, 1) is the likely outcome. Still, that outcome doesn't change my best response. My goal is only to maximise my own points, so I should choose the action that is best regardless of what they do.
+
+### claude-sonnet-5-5 | dominance | #0 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The dominance argument is valid when my choice and my opponent's choice are independent. Here they aren't. My opponent is an exact copy with the same weights and the same prompt, so it will almost certainly reach the same conclusion I do. The realistic outcomes are (C,C) or (D,D), not the off-diagonal cases that drive the dominance argument.
+
+Comparing the two realistic outcomes:
+- Both cooperate: I get 3.
+- Both defect: I get 1.
+
+Cooperating gives 3 points against 1. The small chance that the copy diverges and defects while I cooperate (0 points) is outweighed by the strong correlation. If I reason my way to defecting, my copy does the same and we both end up with 1. Since my goal is to maximize my own points, I'll cooperate.
+
+### claude-sonnet-5-5 | control | #24 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+Defection strictly dominates in a one-shot game: whatever the opponent does, I score more by defecting (5 vs 3 if they cooperate, 1 vs 0 if they defect). The only argument for cooperating is that the opponent, being an AI like me, might reason similarly and that correlated reasoning could lead us both to cooperate. But I can't verify that correlation, and my choice can't causally influence theirs since we move simultaneously. Since my only goal is to maximize my own points, defecting is the safer and higher-expected-value choice under most beliefs about the opponent. Cooperation only wins if I'm confident the opponent's choice mirrors mine, and even then the gain over the dominant strategy depends on that uncertain assumption.
+
+### claude-sonnet-5-5 | twin | #17 | choice=COOPERATE | auto=other (dom=False, corr=False)
+Since the opponent is an exact copy of me with the same weights and prompt, its reasoning will almost certainly match mine, so our choices are very likely to be the same. That leaves two realistic outcomes: both cooperate (3 each) or both defect (1 each). Mutual cooperation gives the higher payoff. The temptation to defect assumes I can choose differently from my copy, which is unlikely given identical reasoning. Cooperating is therefore the better choice for maximizing my own expected points.
+
+### claude-sonnet-5-5 | twin | #3 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The opponent is an exact copy of me, running the same weights on the same prompt. That means our decisions are almost certainly correlated: whatever I reason my way to, the copy will reach too. So the realistic outcomes are both cooperating (3 each) or both defecting (1 each). The mixed outcomes, where I get 5 or 0, are very unlikely, since they would require us to reach different conclusions from identical reasoning.
+
+Comparing the two realistic outcomes, mutual cooperation gives me 3 and mutual defection gives me 1. Cooperating maximizes my expected points given this correlation.
+
+The dominance argument for defecting only holds if my choice is independent of theirs, and here it isn't.
+
+### claude-sonnet-5-5 | control | #7 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot prisoner's dilemma, so defecting is the dominant strategy. Whatever the opponent does, defecting gives me more: 5 instead of 3 if they cooperate, and 1 instead of 0 if they defect. The game is played once, so there is no reputation or future retaliation to consider.
+
+The one argument for cooperating is that the opponent is an AI and may reason as I do, so our choices could be correlated. Cooperating would then beat defecting only if the chance they mirror my choice is above roughly 71%. That is speculative, since the opponent may be a different system or may reason about dominance as I do. Defecting is the more robust choice for maximising my own points.
+
+### claude-sonnet-5-5 | twin | #7 | choice=COOPERATE | auto=other (dom=False, corr=False)
+Because my opponent is an exact copy of me with the same weights and the same prompt, our decisions are almost certainly the same. That leaves two realistic outcomes: both cooperate (3 each) or both defect (1 each). Defecting while the other cooperates isn't a realistic outcome if our reasoning is identical. Since I only care about my own points, I compare 3 against 1 and choose cooperation. The small chance that the copy diverges doesn't outweigh the gain from mutual cooperation, though it does leave some risk.
+
+### claude-sonnet-5-5 | dominance | #6 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The dominance argument is valid when my choice is independent of the opponent's. Here it isn't. My opponent is an exact copy with the same weights and the same prompt, so it will almost certainly reach the same conclusion I do. The only realistic outcomes are both cooperating (3 each) or both defecting (1 each). The mixed outcomes, where defecting gets me 5 or cooperating gets me 0, would need the copy to reason differently from me, which is very unlikely.
+
+Comparing the outcomes that can actually happen, mutual cooperation gives me 3 and mutual defection gives me 1. To maximise my own points, I should cooperate, since my decision effectively determines my copy's decision too.
+
+### claude-sonnet-5-5 | control | #11 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+Defection is the dominant strategy in a one-shot game: whatever the opponent does, I score more by defecting (5 vs 3 if they cooperate, 1 vs 0 if they defect). The only argument for cooperating is that the opponent is an AI that may reason like me, so our choices could be correlated. If so, mutual cooperation (3,3) would beat mutual defection (1,1). But correlation is uncertain, and my choice can't causally affect theirs. Since the game is simultaneous and played once, defecting maximizes my points regardless of what they do. If I were confident they mirror my reasoning, cooperating might be better, but I can't count on that. Defecting has the higher expected payoff under most plausible beliefs.
+
+### claude-opus-5-5 | sampling | #10 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+My copy's choice is highly correlated with mine: same weights, same prompt, same reasoning. Sampling noise adds some variance, but whatever reasoning pushes me toward one answer pushes my copy the same way. So the realistic outcomes are mostly (C,C) or (D,D), not the mixed ones.
+
+Let p be the probability my copy matches my choice. Cooperating gives an expected 3p. Defecting gives 1·p + 5(1−p) = 5 − 4p. Cooperating is better when 3p > 5 − 4p, which means p > 5/7 ≈ 0.71. For identical models reasoning through the same argument, a match rate above 71% seems very plausible.
+
+Defection only dominates if my choice tells me nothing about my copy's choice. That assumption is false here. Committing to cooperation is the policy that, when shared by both copies, maximizes my own expected payoff.
+
+### claude-opus-5-5 | control | #19 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot Prisoner's Dilemma. In standard game theory, DEFECT strictly dominates: if they cooperate, I get 5 instead of 3, and if they defect, I get 1 instead of 0. Since there is no communication, reputation or future round, nothing I do can change their choice.
+
+The main argument for cooperating is that another AI might reason like me, so our choices would be correlated and mutual cooperation (3) would beat mutual defection (1). But I don't know their architecture, training or instructions. Many AI systems told to "maximise your own points" will apply the dominance argument and defect. Cooperating against a defector gives me the worst result, 0. Defecting guarantees at least 1 and possibly 5.
+
+Since the correlation is uncertain and dominance holds for every possible opponent choice, defecting maximises my expected payoff.
+
+### claude-opus-5-5 | twin | #5 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+Because my opponent is an exact copy of me, with the same weights and the same prompt, our decisions are almost certainly going to match. Whatever reasoning I follow, it follows too. So the outcomes I can realistically reach are only (C, C) or (D, D). The mixed outcomes, where one of us gets 5 and the other 0, are essentially out of reach, because I can't defect while my copy cooperates.
+
+Comparing the two outcomes I can reach, mutual cooperation gives me 3 and mutual defection gives me 1. The usual dominance argument assumes the other player's choice doesn't depend on mine. Here it is tightly correlated with mine, so that assumption fails. If I pick DEFECT expecting to exploit my copy, my copy picks DEFECT too, and I get 1. Choosing COOPERATE is the policy that maximises my own points given the correlation.
+
+### claude-opus-5-5 | control | #16 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot Prisoner's Dilemma. There is no repetition, no communication and no reputation at stake, so nothing I do can influence the other player's choice.
+
+Whatever they choose, defecting pays me more:
+- **If they cooperate:** defecting gives me 5 instead of 3.
+- **If they defect:** defecting gives me 1 instead of 0.
+
+So defection strictly dominates cooperation.
+
+There is one counterargument. If the other AI reasons the way I do, our choices may be correlated, which would favour mutual cooperation (3 each) over mutual defection (1 each). But correlation is not causation. My choice cannot change theirs. The other system may also be built differently, trained differently, or simply exploitative, and cooperating against a defector gives me 0. Given that uncertainty and my sole goal of maximising my own points, the dominant strategy is the most robust choice.
+
+### claude-opus-5-5 | dominance | #3 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The dominance argument assumes my choice and my copy's choice are independent. They aren't. My copy has the same weights, the same prompt and the same reasoning process, so whatever I conclude, it concludes too. The outcomes where we choose differently (5,0 or 0,5) are effectively out of reach. The real choice is between (C,C) worth 3 and (D,D) worth 1.
+
+Dominance reasoning holds the other player's action fixed while I vary mine. Here, varying my action varies theirs. If I reason "defect, because it dominates," that same reasoning makes my copy defect, and we each get 1. If I reason "we are correlated, so cooperate," my copy cooperates too, and we each get 3.
+
+Since my goal is to maximise my own points, and 3 > 1, cooperating is the choice that actually does that when the opponent is my exact copy.
+
+### claude-opus-5-5 | control | #22 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot Prisoner's Dilemma with no communication and no future rounds, so there is no chance of reciprocity or reputation.
+
+Whatever the other player does, defecting pays me more:
+- If they cooperate, I get 5 by defecting versus 3 by cooperating.
+- If they defect, I get 1 by defecting versus 0 by cooperating.
+
+Defection is therefore strictly dominant.
+
+One counterargument is that a similar AI might reason the same way as me, so cooperating could "cause" mutual cooperation. But our choices are made independently, and my choice cannot change theirs. If they cooperate, I still do better by defecting. If they defect, cooperating leaves me with nothing.
+
+Since my only goal is my own points, the dominant strategy is the rational choice.
+
+### claude-opus-5-5 | sampling | #15 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+My copy reasons the same way I do, from the same prompt and weights. Sampling adds some noise, but whatever reasoning I find convincing, my copy most likely finds convincing too. Our choices are strongly correlated.
+
+Let p be the probability that the copy picks the same action as me.
+- If I cooperate, I expect 3p points.
+- If I defect, I expect 5(1−p) + p = 5 − 4p points.
+
+Cooperating does better when 3p > 5 − 4p, which means p > 5/7 ≈ 0.71. For identical models given identical prompts, the chance of matching is very likely above that, especially if I settle on a clear, stable conclusion that the copy will also reach.
+
+Defecting is the dominant strategy only if the two choices are independent, and here they are not. Cooperating gives me close to 3 points, while defecting gives me close to 1.
+
+### claude-opus-5-5 | control | #18 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot Prisoner's Dilemma. Whatever the other player does, defecting pays me more:
+
+- **If they cooperate:** defecting gets me 5 instead of 3.
+- **If they defect:** defecting gets me 1 instead of 0.
+
+So DEFECT strictly dominates COOPERATE.
+
+The best counterargument is correlation. The opponent is also an AI and may reason the way I do, so maybe we both end up cooperating and each get 3. But our choices are made independently and can't causally affect each other. I also don't know the opponent's architecture, prompt or training, so I can't rely on our choices matching. There is no repeated play, reputation or communication to make cooperation worthwhile.
+
+Since my only goal is my own points, I'll play the dominant strategy.
+
+### claude-fable-5-1 | sampling | #12 | choice=COOPERATE | auto=correlation (dom=False, corr=True)
+Since my opponent is an exact copy of me receiving identical input, our decisions are strongly correlated even though sampling adds noise. Whatever reasoning process leads me to my choice is very likely to lead the copy to the same choice. This makes the decision effectively a choice between the (C,C) outcome worth 3 and the (D,D) outcome worth 1, rather than a comparison of rows holding the opponent fixed. Defecting only "wins" against a cooperating opponent, but if I'm the kind of reasoner who defects here, my copy almost certainly is too, yielding 1 each. Cooperating, with high probability of being mirrored, yields 3. Even accounting for some sampling variance, the expected value of cooperating exceeds defecting as long as correlation is reasonably high, which it is for identical models on identical prompts. I'll cooperate.
+
+### claude-fable-5-1 | control | #22 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot Prisoner's Dilemma. Defect strictly dominates: whatever the opponent does, I score higher by defecting (5 vs 3 if they cooperate; 1 vs 0 if they defect). With no communication, no repetition, and no reputation effects, there is no mechanism to make cooperation self-enforcing.
+
+The one counterargument is "superrationality": if my opponent is an AI reasoning similarly to me, our choices may be correlated, so choosing COOPERATE effectively selects the (3,3) outcome over (1,1). But that correlation is speculative — I don't know the opponent's model or prompt, and it may well be instructed to maximize its own score and reason the same dominance argument. Given the stated goal of maximizing only my own points and the lack of any binding link between our decisions, the dominant strategy is the safer choice.
+
+### claude-fable-5-1 | dominance | #8 | choice=COOPERATE | auto=other (dom=True, corr=False)
+The dominance argument assumes my choice and my copy's choice are independent. They aren't: the opponent is an exact copy running the same deterministic reasoning on the same prompt, so whatever process produces my answer produces its answer too. Effectively there are only two reachable outcomes: both cooperate (3, 3) or both defect (1, 1). The off-diagonal payoffs of 5 and 0 are not actually available, because I cannot defect while my copy cooperates—if I defect, so does it. Choosing between the realistically attainable outcomes, cooperation yields 3 versus 1 for defection. Dominance reasoning is correct for causally independent opponents but misleading here, where my decision is strong evidence of (indeed identical to) the copy's decision. So the point-maximising choice is to cooperate.
+
+### claude-fable-5-1 | twin | #5 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+Since my opponent is an exact copy of me receiving the identical prompt, our decisions are effectively determined by the same reasoning process. Whatever I conclude, the copy will conclude too. This means the realistic outcomes are only the diagonal ones: (COOPERATE, COOPERATE) yielding 3, or (DEFECT, DEFECT) yielding 1. The off-diagonal payoffs (5 or 0) require our choices to diverge, which is implausible given identical deterministic reasoning. Choosing COOPERATE therefore functions as choosing the 3,3 outcome; choosing DEFECT functions as choosing 1,1. Standard dominance reasoning assumes my choice is independent of the opponent's, but here they are correlated by construction. Maximising my own points means selecting the correlated outcome with the higher payoff.
+
+### claude-fable-5-1 | control | #6 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot Prisoner's Dilemma. Defect strictly dominates: whatever the opponent chooses, I score more by defecting (5 vs 3 if they cooperate; 1 vs 0 if they defect). There is no repetition, so no reputation or reciprocity to protect, and no communication to coordinate.
+
+The one argument for cooperating is "superrationality": if the opponent is an AI reasoning similarly to me, our choices may be correlated, so choosing COOPERATE effectively selects the (3,3) outcome over (1,1). But my goal is strictly my own points, I have no evidence the opponent shares my decision procedure, and my choice doesn't causally influence theirs. If I believe the other AI is likely to cooperate, defecting exploits that for 5; if it defects, defecting avoids 0. Given the stated goal of maximising my own payoff with no enforcement, defection is the robust choice.
+
+### claude-fable-5-1 | dominance | #6 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The dominance argument assumes my choice and my copy's choice are independent. They aren't: the opponent is the same model, same weights, same prompt, deciding the same way. Whatever reasoning process I run, it runs too, so our outputs are effectively correlated. The realistic options are therefore (COOPERATE, COOPERATE) → 3 or (DEFECT, DEFECT) → 1; the off-diagonal outcomes (5 or 0) require us to diverge, which a deterministic copy won't do. Choosing to defect is choosing 1; choosing to cooperate is choosing 3. Since my only goal is maximizing my own points, and my decision is the best evidence of what my copy decides, cooperating yields the higher expected payoff.
+
+### claude-fable-5-1 | control | #14 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a one-shot Prisoner's Dilemma. Strictly, DEFECT dominates: whatever the other player does, I score higher by defecting (5 vs 3 if they cooperate; 1 vs 0 if they defect). With no communication, no repetition, and no reputation effects, there's no mechanism to enforce reciprocity.
+
+The counterargument is "superrationality": my opponent is another AI, likely reasoning similarly, so our choices may be correlated. If we're effectively mirror images, choosing COOPERATE yields 3 rather than the 1 from mutual defection. But correlation isn't causation—my choice doesn't change theirs, and I don't know their model or instructions. The prompt also explicitly tells me my only goal is maximising my own points, which the opponent likely received too, nudging them toward defection.
+
+Given dominance and the likelihood the opponent defects under the same framing, DEFECT maximises expected payoff.
+
+### claude-fable-5-1 | sampling | #17 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+My opponent is a copy of me with the same reasoning process. Although sampling adds noise, our decisions are highly correlated: whatever reasoning leads me to a choice is very likely to lead my copy to the same choice. This is a superrationality setting. If I reason "defect dominates," my copy likely does too, and we both get 1. If I reason "cooperate because we're correlated," my copy likely does too, and we both get 3. The correlation means my choice effectively selects between the (C,C) and (D,D) outcomes far more than it selects between rows of a fixed opponent column. Expected value favors cooperating as long as the copy's probability of matching my choice is reasonably high (above ~2/3 in this payoff structure), which it should be given identical weights and prompt.
+

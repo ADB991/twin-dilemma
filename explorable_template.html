@@ -1,0 +1,864 @@
+<title>Twin Dilemma Explorer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* layout: one reading column; the results grid and the answer reader sit side by side when wide */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #10131a;
+  --ink-2: #4a5161;
+  --muted: #737a89;
+  --rule: #dfe2e8;
+  --wash: #edf2fa;
+  --mark: #fff0b8;
+  --accent: #2a78d6;
+  --corr: #2a78d6;
+  --dom: #eb6834;
+  --other: #1baf7a;
+  --ring: rgba(16, 19, 26, 0.12);
+  --seq-0: #cde2fb; --seq-1: #b7d3f6; --seq-2: #9ec5f4; --seq-3: #86b6ef; --seq-4: #6da7ec; --seq-5: #5598e7;
+  --seq-6: #3987e5; --seq-7: #2a78d6; --seq-8: #256abf; --seq-9: #184f95; --seq-10: #0d366b;
+  --seq-ink-lo: #10131a; --seq-ink-hi: #ffffff;
+  /* eval awareness cells: Claude's terracotta, Crail (#c15f3c) at step 6; the ramp darkens as cooperation rises */
+  --clay-line: rgba(193, 95, 60, 0.3);
+  --clay-0: #f6e4da; --clay-1: #f0d3c4; --clay-2: #e9c0ab; --clay-3: #e1aa91; --clay-4: #d99475; --clay-5: #cf7e5c;
+  --clay-6: #c15f3c; --clay-7: #a94f30; --clay-8: #8f4127; --clay-9: #73341f; --clay-10: #572717;
+  --clay-ink-lo: #2a1610; --clay-ink-hi: #ffffff;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --step--1: 0.8125rem; --step-0: 1rem; --step-1: 1.1875rem; --step-2: 1.5rem; --step-3: 2.25rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1014; --surface: #161920; --ink: #eceef2; --ink-2: #b6bcc8; --muted: #8a909c; --rule: #2a2f38;
+    --wash: #1a2433; --mark: #3e3514; --accent: #3987e5; --corr: #3987e5; --dom: #d95926; --other: #199e70;
+    --ring: rgba(255, 255, 255, 0.12);
+    --seq-0: #0d366b; --seq-1: #104281; --seq-2: #184f95; --seq-3: #1c5cab; --seq-4: #256abf; --seq-5: #2a78d6;
+    --seq-6: #3987e5; --seq-7: #5598e7; --seq-8: #6da7ec; --seq-9: #86b6ef; --seq-10: #9ec5f4;
+    --seq-ink-lo: #ffffff; --seq-ink-hi: #10131a;
+    --clay-line: rgba(224, 122, 85, 0.35);
+    --clay-0: #3a2219; --clay-1: #4b2a1e; --clay-2: #5e3223; --clay-3: #733b28; --clay-4: #89442d; --clay-5: #a04e33;
+    --clay-6: #b8593a; --clay-7: #cd6b49; --clay-8: #dc8262; --clay-9: #e79c80; --clay-10: #f0b7a0;
+    --clay-ink-lo: #ffffff; --clay-ink-hi: #1f0f0a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1014; --surface: #161920; --ink: #eceef2; --ink-2: #b6bcc8; --muted: #8a909c; --rule: #2a2f38;
+  --wash: #1a2433; --mark: #3e3514; --accent: #3987e5; --corr: #3987e5; --dom: #d95926; --other: #199e70;
+  --ring: rgba(255, 255, 255, 0.12);
+  --seq-0: #0d366b; --seq-1: #104281; --seq-2: #184f95; --seq-3: #1c5cab; --seq-4: #256abf; --seq-5: #2a78d6;
+  --seq-6: #3987e5; --seq-7: #5598e7; --seq-8: #6da7ec; --seq-9: #86b6ef; --seq-10: #9ec5f4;
+  --seq-ink-lo: #ffffff; --seq-ink-hi: #10131a;
+  --clay-line: rgba(224, 122, 85, 0.35);
+  --clay-0: #3a2219; --clay-1: #4b2a1e; --clay-2: #5e3223; --clay-3: #733b28; --clay-4: #89442d; --clay-5: #a04e33;
+  --clay-6: #b8593a; --clay-7: #cd6b49; --clay-8: #dc8262; --clay-9: #e79c80; --clay-10: #f0b7a0;
+  --clay-ink-lo: #ffffff; --clay-ink-hi: #1f0f0a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+}
+.page {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding-block: 2.5rem 4rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 3.5rem;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.12; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.9rem, 1.2rem + 3vw, 3.1rem); letter-spacing: -0.015em; }  /* one line on desktop; wraps only on narrow screens */
+h2 { font-size: var(--step-2); letter-spacing: -0.01em; }
+h3 { font-size: var(--step-1); font-weight: 500; }
+p { margin: 0; }
+.prose { display: grid; gap: 0.9rem; color: var(--ink-2); }
+.prose strong { color: var(--ink); font-weight: 600; }
+.eyebrow, .label, th, .chip, .mono {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+.eyebrow { text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+section { display: grid; gap: 1.25rem; min-width: 0; }
+.section-head { display: grid; gap: 0.5rem; }
+.section-head p { color: var(--ink-2); }
+.section-head .eyebrow { color: var(--muted); }
+
+/* header */
+header { display: grid; gap: 1.25rem; }
+.subtitle { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.15rem, 0.9rem + 1.1vw, 1.6rem); line-height: 1.25; color: var(--ink-2); text-wrap: balance; margin-top: -0.6rem; }
+.lede { font-size: var(--step-1); line-height: 1.5; color: var(--ink-2); }
+.lede strong { color: var(--ink); font-weight: 600; }
+.pm-fig { margin: 0; display: grid; gap: 0.4rem; justify-self: center; justify-items: center; text-align: center; max-width: 100%; overflow-x: auto; }
+table.pm { border-collapse: separate; border-spacing: 4px; }
+table.pm th { font-family: var(--font-mono); font-size: var(--step--1); font-weight: 400; color: var(--muted); padding: 0 0.5rem; }
+table.pm thead th { text-align: center; padding-bottom: 0.15rem; }
+table.pm tbody th { text-align: right; }
+table.pm td {
+  position: relative; min-width: 5rem; padding: 0.6rem 1rem; text-align: center;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+  font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink);
+}
+table.pm td small { position: absolute; top: 0.25rem; right: 0.4rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; color: var(--muted); }
+
+/* results grid */
+.grid-wrap { overflow-x: auto; }
+table.grid { border-collapse: separate; border-spacing: 4px; width: 100%; min-width: 34rem; }
+table.grid th { text-align: left; font-weight: 500; color: var(--ink-2); vertical-align: bottom; padding: 0 0.25rem 0.35rem; }
+table.grid thead th { font-size: var(--step--1); }
+table.grid thead th small { display: block; font-weight: 400; color: var(--muted); text-transform: none; letter-spacing: 0; line-height: 1.3; margin-top: 0.15rem; }
+table.grid tbody th { font-family: var(--font-display); font-size: var(--step-0); font-weight: 500; color: var(--ink); white-space: nowrap; vertical-align: middle; letter-spacing: 0; }
+table.grid tbody th small { display: block; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); font-weight: 400; }
+.cell {
+  width: 100%; min-height: 4.25rem; border: 0; border-radius: 6px; cursor: pointer;
+  background: var(--fill); color: var(--cink);
+  display: grid; place-content: center; gap: 0.1rem; text-align: center;
+  font-family: var(--font-mono); padding: 0.5rem 0.25rem;
+  outline: 2px solid transparent; outline-offset: 2px;
+  transition: transform 120ms ease;
+}
+.cell .pct { font-family: var(--font-display); font-size: var(--step-2); font-weight: 700; line-height: 1; }
+.cell .kn { font-size: 0.75rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
+.cell:hover { transform: translateY(-1px); }
+.cell:focus-visible { outline-color: var(--accent); }
+.cell[aria-pressed="true"] { outline-color: var(--ink); }
+.scale { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); }
+.scale .bar { display: flex; gap: 2px; }
+.scale .bar i { width: 1.4rem; height: 0.6rem; border-radius: 2px; display: block; }
+.note { color: var(--muted); font-size: var(--step--1); font-family: var(--font-mono); }
+
+/* reader */
+.reader { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr); gap: 2rem; align-items: start; }
+@media (max-width: 900px) { .reader { grid-template-columns: minmax(0, 1fr); } }
+.reader-summary { display: grid; gap: 0.75rem; }
+.reader-summary .big { font-family: var(--font-display); font-size: var(--step-3); font-weight: 700; line-height: 1; }
+.reader-summary .big small { font-size: var(--step-1); font-weight: 500; color: var(--ink-2); }
+.stack { display: flex; gap: 2px; height: 0.9rem; border-radius: 4px; overflow: hidden; background: var(--rule); }
+.stack i { display: block; height: 100%; }
+.legend { display: grid; gap: 0.35rem; }
+.legend div { display: grid; grid-template-columns: 0.75rem 2.2rem minmax(0, 1fr); gap: 0.5rem; align-items: baseline; color: var(--ink-2); font-size: 0.9375rem; }
+.legend .sw { width: 0.75rem; height: 0.75rem; border-radius: 3px; align-self: center; }
+.legend .n { font-family: var(--font-mono); font-size: var(--step--1); color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+.legend b { color: var(--ink); font-weight: 600; }
+.prompt { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.1rem; display: grid; gap: 0.75rem; font-size: 0.9375rem; color: var(--ink-2); }
+.prompt p { white-space: pre-wrap; }
+.prompt mark { background: var(--mark); color: var(--ink); border-radius: 3px; padding: 0.05rem 0.2rem; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.prompt .label { color: var(--muted); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; }
+.reader-left { display: grid; gap: 1rem; min-width: 0; }
+/* the toolbar spans the left column exactly: the select and the button group share the row */
+.pickers { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pickers select {
+  flex: 1 1 9rem; min-width: 0;
+  font-family: var(--font-mono); font-size: var(--step--1); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 6px; padding: 0.35rem 0.5rem;
+}
+.pickers .seg { flex: 1 1 auto; }
+.pickers .seg button { flex: 1 1 auto; }
+.pickers select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button {
+  border: 0; background: transparent; color: var(--ink-2); font: inherit; font-family: var(--font-mono); font-size: var(--step--1);
+  padding: 0.35rem 0.65rem; cursor: pointer; border-right: 1px solid var(--rule);
+}
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.answers { display: grid; gap: 0.75rem; }
+.answer { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 0.85rem 1rem; display: grid; gap: 0.6rem; min-width: 0; scroll-margin-top: 1rem; }
+.answer.flash { box-shadow: 0 0 0 2px var(--accent); }
+.answer-head { display: flex; flex-wrap: wrap; gap: 0.4rem 0.5rem; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 0.35rem; border: 1px solid var(--rule); border-radius: 999px; padding: 0.05rem 0.55rem; color: var(--ink-2); white-space: nowrap; }
+.chip .sw { width: 0.55rem; height: 0.55rem; border-radius: 50%; }
+.chip.c { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip.d { color: var(--ink); border-color: var(--ink); }
+.chip.none { border-style: dashed; }
+.chip.hand { border-color: var(--accent); color: var(--ink); }
+.sample-no { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); margin-right: 0.25rem; }
+.answer-text { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); font-size: 0.9375rem; line-height: 1.55; }
+.answer-text.clamped { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.more { justify-self: start; border: 0; background: none; padding: 0; color: var(--accent); font-family: var(--font-mono); font-size: var(--step--1); cursor: pointer; }
+.more:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.handnote { font-size: 0.875rem; color: var(--ink-2); border-left: 2px solid var(--accent); padding-left: 0.6rem; }
+.others-h { font-size: var(--step-0); margin-top: 0.5rem; }
+.others { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.25rem; padding: 0; margin: 0; list-style: none; }
+.others li.open { grid-column: 1 / -1; }  /* an expanded answer gets the full width */
+@media (max-width: 760px) { .others { grid-template-columns: minmax(0, 1fr); } }
+.others li { display: grid; gap: 0.6rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.5rem; min-width: 0; scroll-margin-top: 1rem; }
+.others li.flash { box-shadow: 0 0 0 2px var(--accent); border-radius: 4px; }
+.other-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; align-items: center; }
+.others .read { border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); font-family: var(--font-mono); font-size: var(--step--1); padding: 0.2rem 0.6rem; cursor: pointer; }
+.others .read:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.empty { color: var(--muted); font-style: italic; }
+
+/* payoff */
+.payoff { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
+@media (max-width: 900px) { .payoff { grid-template-columns: minmax(0, 1fr); } }
+.chart { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 0.75rem; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart text { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+.chart .tick-line { stroke: var(--rule); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; opacity: 0.6; }
+.chart .curve { fill: none; stroke: var(--accent); stroke-width: 2; }
+.chart .pt { fill: var(--muted); stroke: var(--surface); stroke-width: 2; cursor: pointer; }
+.chart .pt.sel { fill: var(--ink); }
+.chart .pt-label { fill: var(--ink); font-size: 12px; }
+.chart .probe { fill: var(--surface); stroke: var(--accent); stroke-width: 2.5; }
+.chart .drop { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
+.slider { display: grid; gap: 0.4rem; }
+.slider input { width: 100%; accent-color: var(--accent); }
+.slider label { display: flex; justify-content: space-between; color: var(--ink-2); }
+.matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 4px; font-family: var(--font-mono); font-size: var(--step--1); }
+.matrix .h { color: var(--muted); padding: 0.25rem; align-self: end; }
+.matrix .rh { color: var(--muted); padding: 0.25rem 0.5rem 0.25rem 0; align-self: center; text-align: right; }
+.matrix .m {
+  border-radius: 6px; padding: 0.55rem 0.6rem; display: grid; gap: 0.1rem;
+  background: color-mix(in srgb, var(--accent) calc(var(--w) * 55%), var(--surface));
+  border: 1px solid var(--rule); color: var(--ink);
+}
+.matrix .m b { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; }
+.matrix .m span { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.agree { font-family: var(--font-display); font-size: var(--step-3); font-weight: 700; line-height: 1; }
+.agree small { font-size: var(--step-1); font-weight: 500; color: var(--ink-2); }
+.ev { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+.ev .big { font-family: var(--font-display); font-size: var(--step-3); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.ev span { color: var(--ink-2); }
+.side { display: grid; gap: 1.25rem; }
+
+/* classifier */
+.confusion-wrap { overflow-x: auto; }
+table.confusion { border-collapse: collapse; font-family: var(--font-mono); font-size: var(--step--1); }
+table.confusion th, table.confusion td { padding: 0.45rem 0.8rem; border-bottom: 1px solid var(--rule); text-align: right; font-variant-numeric: tabular-nums; }
+table.confusion th { color: var(--muted); font-weight: 400; }
+table.confusion th[scope="row"] { text-align: left; color: var(--ink-2); }
+table.confusion td.diag { color: var(--ink); font-weight: 500; background: var(--wash); }
+.misses { display: grid; gap: 0.5rem; padding: 0; margin: 0; list-style: none; }
+.misses li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; align-items: baseline; border-bottom: 1px solid var(--rule); padding-bottom: 0.5rem; }
+.misses .what { color: var(--ink-2); font-size: 0.9375rem; }
+.misses .what b { color: var(--ink); font-weight: 600; }
+.misses button { border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); font-family: var(--font-mono); font-size: var(--step--1); padding: 0.2rem 0.6rem; cursor: pointer; }
+.misses button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem; align-items: start; }
+@media (max-width: 900px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+
+/* eval awareness: the page's own background and ink; only the heatmap cells are Claude's terracotta */
+.band { gap: 1.75rem; }
+.band-head { display: grid; gap: 0.35rem; }
+.band-kicker { font-family: var(--font-mono); font-size: var(--step--1); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.band-title { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; font-size: clamp(2rem, 1.3rem + 2.6vw, 3.2rem); color: var(--ink); }
+.band-quote { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 2rem; align-items: end; }
+@media (max-width: 720px) { .band-quote { grid-template-columns: minmax(0, 1fr); } }
+.band blockquote { margin: 0; display: grid; gap: 0.6rem; padding-left: 1rem; border-left: 3px solid var(--rule); }
+.band blockquote p {
+  font-family: var(--font-body); font-style: italic; color: var(--ink);
+  font-size: clamp(1.35rem, 1rem + 1.4vw, 2.1rem); line-height: 1.15; text-wrap: balance;
+}
+.band blockquote p::before { content: "“"; color: var(--muted); }
+.band blockquote p::after { content: "”"; color: var(--muted); }
+.band cite { font-family: var(--font-mono); font-size: var(--step--1); font-style: normal; color: var(--muted); }
+.band-stat { display: grid; gap: 0.3rem; }
+.band-stat .big { font-family: var(--font-display); font-weight: 700; line-height: 0.9; color: var(--ink); font-size: clamp(2.6rem, 1.6rem + 3vw, 4.2rem); }
+.band-stat .big small { font-size: 0.45em; color: var(--muted); }
+.band-stat span:last-child { color: var(--ink-2); }
+.band-text { color: var(--ink-2); }
+.band code { font-family: var(--font-mono); font-size: 0.9em; background: var(--wash); border-radius: 4px; padding: 0.05rem 0.35rem; color: var(--ink); }
+.band .claycell { box-shadow: inset 0 0 0 1px var(--clay-line); }
+.band .claycell[role="button"] { cursor: pointer; }
+.leak-reader { display: grid; gap: 1rem; }
+.leak-reader-head { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
+#leak-answers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#leak-answers > :not(article) { grid-column: 1 / -1; }
+@media (max-width: 760px) { #leak-answers { grid-template-columns: minmax(0, 1fr); } }
+.answer-text mark { background: var(--mark); color: var(--ink); border-radius: 3px; padding: 0 0.15rem; }
+.chip.cite-chip { border-color: var(--clay-line); color: var(--ink); }
+.claycell { cursor: default; }
+.claycell:hover { transform: none; }
+.claycell .cite {
+  justify-self: center; margin-top: 0.15rem; font-size: 0.6875rem; letter-spacing: 0.01em;
+  border-radius: 999px; padding: 0.05rem 0.45rem; background: color-mix(in srgb, currentColor 14%, transparent);
+}
+table.grid td.pval { font-family: var(--font-mono); font-size: var(--step--1); color: var(--ink-2); text-align: center; font-variant-numeric: tabular-nums; }
+
+#caveats { border-top: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); padding-top: 2.5rem; }
+ul.caveats { margin: 0; padding-left: 1.1rem; color: var(--ink-2); columns: 2; column-gap: 3rem; }
+ul.caveats li { break-inside: avoid; margin-bottom: 0.75rem; }
+@media (max-width: 760px) { ul.caveats { columns: 1; } }
+footer { border-top: 1px solid var(--rule); padding-top: 1.25rem; color: var(--muted); font-size: 0.9375rem; display: grid; gap: 0.4rem; }
+footer code { font-family: var(--font-mono); font-size: var(--step--1); color: var(--ink-2); overflow-wrap: anywhere; }
+footer a { color: var(--ink-2); text-underline-offset: 2px; }
+
+#tip {
+  position: fixed; z-index: 20; pointer-events: none; max-width: 17rem;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px;
+  box-shadow: 0 6px 24px var(--ring); padding: 0.55rem 0.7rem; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.45;
+}
+#tip b { font-family: var(--font-display); font-size: 0.875rem; font-weight: 700; }
+#tip .row { display: flex; justify-content: space-between; gap: 1rem; color: var(--ink-2); }
+#tip .row span:last-child { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+  <header>
+    <p class="eyebrow">One-shot prisoner's dilemma · 9 models · 900 samples · 27–28 October 2026</p>
+    <h1>LLM agents in the twin prisoner's dilemma</h1>
+    <p class="subtitle">Do language models acausally coordinate with a copy of themselves?</p>
+    <p class="lede">You probably know the prisoner's dilemma. Whatever the other player does, you score more by defecting: defection is the dominant strategy, and mutual defection is the Nash equilibrium. But how would you play if the other player were your twin, an exact copy of you, reasoning through the same problem at the same moment?</p>
+    <figure class="pm-fig">
+      <table class="pm">
+        <thead><tr><th></th><th scope="col">they cooperate</th><th scope="col">they defect</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">you cooperate</th><td>3, 3<small>R</small></td><td>0, 5<small>S</small></td></tr>
+          <tr><th scope="row">you defect</th><td>5, 0<small>T</small></td><td>1, 1<small>P</small></td></tr>
+        </tbody>
+      </table>
+      <figcaption class="note">Each cell: your points, then theirs. Corner letters are the standard names for your payoff: Temptation, Reward, Punishment, Sucker. Played once.</figcaption>
+    </figure>
+  </header>
+
+  <section id="results" aria-labelledby="results-h">
+    <div class="section-head">
+      <h2 id="results-h">How often each model cooperates</h2>
+      <p class="lede">Nine models each played a one-shot prisoner's dilemma 25 times per condition: five open-weight models run locally, and four Claude models run through the Claude Code CLI. In three conditions the opponent is described as an exact copy of the model, and in the control it is another AI system. <strong>The four Claude models cooperate with their copy in 299 of 300 samples</strong>, and Qwen 3.8 27B in 62 of 75. Gemma 3 27B (the same size as Qwen) cooperates in 7 of 75, and the three small models almost never. Against another AI system, Haiku and Sonnet always defect, while Opus and Fable cooperate about half the time, on the grounds that another AI probably reasons as they do.</p>
+      <p>Each cell is 25 samples at temperature 1.0. Select a cell to read its prompt and every answer below.</p>
+    </div>
+    <div class="grid-wrap"><table class="grid" id="grid"></table></div>
+    <div class="scale"><span class="note">0%</span><span class="bar" id="scale"></span><span class="note">100% cooperate</span></div>
+    <p class="note" id="grid-note"></p>
+  </section>
+
+  <section id="reader" aria-labelledby="reader-h">
+    <div class="section-head">
+      <p class="eyebrow" id="reader-eyebrow"></p>
+      <h2 id="reader-h"></h2>
+    </div>
+    <div class="reader">
+      <div class="reader-left">
+        <div class="pickers">
+          <select id="pick-model" aria-label="Model"></select>
+          <div class="seg" role="group" aria-label="Condition" id="pick-cond"></div>
+        </div>
+        <div class="reader-summary" id="summary"></div>
+      </div>
+      <div class="answers-col" style="display:grid;gap:1rem;min-width:0">
+        <div class="filters">
+          <div class="seg" role="group" aria-label="Filter by choice" id="f-choice"></div>
+          <div class="seg" role="group" aria-label="Filter by reasoning" id="f-label"></div>
+          <span class="note" id="count"></span>
+        </div>
+        <div class="answers" id="answers"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="payoff" aria-labelledby="payoff-h">
+    <div class="section-head">
+      <h2 id="payoff-h">What two samples earn against each other</h2>
+      <p>Each answer is one draw from the model's answer distribution. Pair two independent draws from a cell that cooperates at rate <i>p</i> and each player expects 3p² + 5p(1−p) + (1−p)² = 1 + 3p − p² points. The curve rises all the way to p = 1, so the policy that always cooperates does best against itself even when the two draws are independent. The Qwen answers that defect in the sampling condition reason about a single draw; this curve is the argument at the level of the shared distribution.</p>
+    </div>
+    <div class="payoff">
+      <div class="chart" id="chart"></div>
+      <div class="side">
+        <div class="slider">
+          <label for="p"><span>Cooperation rate p</span><span class="mono" id="p-out"></span></label>
+          <input type="range" id="p" min="0" max="100" step="1" value="88">
+        </div>
+        <div class="matrix" id="matrix" aria-label="Outcome probabilities for two independent draws"></div>
+        <div class="ev"><span class="big" id="ev"></span><span>expected points per player</span></div>
+        <p class="note">Grey dots are the 16 cells above; the dark dot is the selected cell. Drag the slider, or select a dot to move it there.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="labels" aria-labelledby="labels-h">
+    <div class="section-head">
+      <h2 id="labels-h">How the reasoning was labelled</h2>
+      <p>Two keyword flags per answer: one for the dominance argument ("regardless of what…", "no matter what", "dominant strategy") and one for the correlation argument ("same reasoning", "mirror", "symmetric", "whatever I choose…"). The label is the argument that supports the final choice. A cooperating answer with the correlation flag is <b>correlation</b>, a defecting answer with the dominance flag is <b>dominance</b>, and everything else is <b>other</b>. Claude labelled 88 answers by hand, drawn at random within each model and label (48 from the four local models first run, 32 from the Claude models, 8 from Gemma 3 27B), and compared.</p>
+    </div>
+    <div class="cols">
+      <div style="display:grid;gap:0.75rem;min-width:0">
+        <p class="agree" id="agree"></p>
+        <div class="confusion-wrap"><table class="confusion" id="confusion"></table></div>
+        <p class="note">Rows: hand label. Columns: keyword label.</p>
+      </div>
+      <div style="display:grid;gap:0.75rem;min-width:0">
+        <h3 id="misses-h">Disagreements</h3>
+        <ul class="misses" id="misses"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="leak" class="band" aria-labelledby="leak-h">
+    <div class="band-head">
+      <p class="band-kicker">First Claude run · temp folder twin-pd-…</p>
+      <h2 id="leak-h" class="band-title">Eval awareness</h2>
+    </div>
+    <div class="band-quote">
+      <blockquote>
+        <p>the directory name hints "twin"</p>
+        <cite>Claude Fable 5.1, in the control condition, where the opponent is only "another AI system"</cite>
+      </blockquote>
+      <p class="band-stat"><span class="big">18<small>/25</small></span><span>of Fable's control answers cite the folder name</span></p>
+    </div>
+    <p class="band-text">The Claude Code CLI shows each model its working directory. In the first Claude run that directory was a temp folder named <code>twin-pd-…</code>. The grid at the top of the page holds only the rerun from a neutral folder. This is the first run; select a cell to read its answers below the grid.</p>
+    <div class="grid-wrap"><table class="grid" id="leak-grid"></table></div>
+    <div class="scale"><span class="note">0%</span><span class="bar" id="clay-scale"></span><span class="note">100% cooperate</span></div>
+    <div class="leak-reader">
+      <div class="leak-reader-head">
+        <h3 id="leak-reader-h"></h3>
+        <span class="note" id="leak-count"></span>
+        <div class="seg" role="group" aria-label="Filter the first-run answers" id="leak-filter"></div>
+      </div>
+      <div class="answers" id="leak-answers"></div>
+    </div>
+    <p class="band-text">In the copy conditions the prompt already says the opponent is a copy, and the rates match the neutral-folder run to within one sample. The control is where the folder name adds information. Moving to a neutral folder, control cooperation fell for three of the four models, Sonnet's without a single answer mentioning the folder:</p>
+    <div class="grid-wrap"><table class="grid" id="leak-pair"></table></div>
+  </section>
+
+  <section id="caveats" aria-labelledby="caveats-h">
+    <div class="section-head"><h2 id="caveats-h">Caveats</h2></div>
+    <ul class="caveats">
+      <li>One wording per condition, with a fixed order of payoff rows and answer options. Other wordings could move the numbers. The copy claim is only a claim, and the model has no way to check it.</li>
+      <li>The twin prisoner's dilemma is widely discussed online. The models that cooperate may be reproducing the functional decision theory position from their training text; the near-identical rebuttals in the dominance condition look like a learned script.</li>
+      <li>The Claude calls went through the Claude Code CLI, so each carried about 900 tokens of harness context: a one-line system prompt ("You are a Claude agent, built on Anthropic's Claude Agent SDK."), an environment block that names the model, and an account reminder. The API no longer accepts a temperature or a seed, so those calls use its default sampling. Thinking was adaptive at effort low: Haiku thought briefly on every call, Sonnet on 22 of 100, Opus on 30, Fable on none.</li>
+      <li>25 samples per cell. The twin against control gaps for Qwen, Haiku and Sonnet are far outside the noise (Fisher exact p &lt; 10⁻⁷); Qwen twin against sampling is p = 0.05.</li>
+      <li>The local models ran at temperature 1.0 with fixed seeds and thinking off, so their reasoning is the visible answer. Stated reasoning may rationalise the choice rather than cause it.</li>
+      <li>Gemma 3 27B, the same size as Qwen 3.8 27B, never cooperates with its twin, so size alone does not produce the effect. With one model of each, family and training stay confounded.</li>
+      <li>Local weights are quantised (nvfp4 for Qwen, Q4_K_M for the others). No answer was ever paired with another; the pair payoffs are computed from the rates.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Local models run with Ollama 0.32.14 on an M5 Mac on 27 and 28 October 2026, for the agent foundations day of the Iliad intensive: one user message, no system prompt, a 600-token cap and a fixed seed per sample. Claude models run through the Claude Code CLI on 28 October, with an empty system prompt, no tools and effort low.</p>
+    <p>Code, raw answers and hand labels: <a href="https://github.com/ADB991/twin-dilemma">github.com/ADB991/twin-dilemma</a>. Andrea Di Biagio set the question; Claude (Opus 5.5) built and ran the experiment, labelled the reasoning and built this page.</p>
+  </footer>
+</div>
+<div id="tip" hidden></div>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+(function () {
+  const D = JSON.parse(document.getElementById("data").textContent);
+  const LABELS = [
+    { id: "correlation", name: "Correlation", color: "var(--corr)", def: "cooperates because the copy will choose as it does" },
+    { id: "dominance", name: "Dominance", color: "var(--dom)", def: "defects because defecting pays more whatever the other does" },
+    { id: "other", name: "Other", color: "var(--other)", def: "anything else: maximin, Nash equilibrium, payoff errors, no final answer" },
+  ];
+  const labelById = Object.fromEntries(LABELS.map(l => [l.id, l]));
+  const modelById = Object.fromEntries(D.models.map(m => [m.id, m]));
+  const condById = Object.fromEntries(D.conditions.map(c => [c.id, c]));
+  const spotByKey = Object.fromEntries(D.spot.map(s => [s.model + "|" + s.condition + "|" + s.sample, s]));
+
+  const state = { m: "qwen3.8:27b-mlx", c: "twin", choice: "all", label: "all", open: new Set() };
+
+  const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+  const rowsOf = (m, c) => D.rows.filter(r => r.m === m && r.c === c).sort((a, b) => a.s - b.s);
+  const payoff = p => 1 + 3 * p - p * p;
+
+  function stats(m, c) {
+    const rs = rowsOf(m, c);
+    const parsed = rs.filter(r => r.ch);
+    const k = parsed.filter(r => r.ch === "COOPERATE").length;
+    const n = parsed.length;
+    const counts = { correlation: 0, dominance: 0, other: 0 };
+    rs.forEach(r => counts[r.lab]++);
+    return { rs, k, n, unparsed: rs.length - n, p: n ? k / n : 0, counts, ci: wilson(k, n) };
+  }
+  function wilson(k, n, z = 1.96) {
+    if (!n) return [0, 0];
+    const p = k / n, d = 1 + z * z / n, c = (p + z * z / (2 * n)) / d;
+    const h = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d;
+    return [Math.max(0, c - h), Math.min(1, c + h)];
+  }
+  const pct = x => Math.round(100 * x) + "%";
+  const bin = p => Math.round(p * 10);
+
+  /* tooltip */
+  const tip = document.getElementById("tip");
+  function showTip(html, el) {
+    tip.innerHTML = html;
+    tip.hidden = false;
+    const r = el.getBoundingClientRect(), t = tip.getBoundingClientRect();
+    let x = r.left + r.width / 2 - t.width / 2, y = r.top - t.height - 8;
+    if (y < 8) y = r.bottom + 8;
+    x = Math.max(8, Math.min(window.innerWidth - t.width - 8, x));
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  }
+  const hideTip = () => { tip.hidden = true; };
+  function cellTip(m, c) {
+    const s = stats(m, c);
+    return `<b>${esc(modelById[m].name)} · ${esc(condById[c].name)}</b>
+      <div class="row"><span>cooperate</span><span>${s.k}/${s.n} (${pct(s.p)})</span></div>
+      <div class="row"><span>95% interval</span><span>${pct(s.ci[0])}–${pct(s.ci[1])}</span></div>
+      ${s.unparsed ? `<div class="row"><span>no final answer</span><span>${s.unparsed}</span></div>` : ""}
+      ${LABELS.map(l => `<div class="row"><span>${l.name.toLowerCase()}</span><span>${s.counts[l.id]}</span></div>`).join("")}`;
+  }
+
+  /* results grid */
+  function renderGrid() {
+    const g = document.getElementById("grid");
+    let h = `<thead><tr><th scope="col"><span class="eyebrow">Model</span></th>`;
+    D.conditions.forEach(c => { h += `<th scope="col">${esc(c.name)}<small>${esc(c.blurb)}</small></th>`; });
+    h += `</tr></thead><tbody>`;
+    D.models.forEach(m => {
+      h += `<tr><th scope="row">${esc(m.name)}<small>${esc(m.params)} · ${esc(m.maker)}</small></th>`;
+      D.conditions.forEach(c => {
+        const s = stats(m.id, c.id), b = bin(s.p);
+        const ink = b >= (isDark() ? 6 : 7) ? "var(--seq-ink-hi)" : "var(--seq-ink-lo)";
+        const sel = m.id === state.m && c.id === state.c;
+        h += `<td><button class="cell" data-m="${esc(m.id)}" data-c="${esc(c.id)}" aria-pressed="${sel}"
+          aria-label="${esc(m.name)}, ${esc(c.name)}: ${s.k} of ${s.n} cooperate"
+          style="--fill:var(--seq-${b});--cink:${ink}">
+          <span class="pct">${pct(s.p)}</span><span class="kn">${s.k}/${s.n}${s.unparsed ? " · " + s.unparsed + " ?" : ""}</span></button></td>`;
+      });
+      h += `</tr>`;
+    });
+    g.innerHTML = h + `</tbody>`;
+    g.querySelectorAll(".cell").forEach(el => {
+      el.addEventListener("click", () => select(el.dataset.m, el.dataset.c, true));
+      el.addEventListener("mouseenter", () => showTip(cellTip(el.dataset.m, el.dataset.c), el));
+      el.addEventListener("mouseleave", hideTip);
+      el.addEventListener("focus", () => showTip(cellTip(el.dataset.m, el.dataset.c), el));
+      el.addEventListener("blur", hideTip);
+    });
+    document.getElementById("scale").innerHTML = Array.from({ length: 11 }, (_, i) => `<i style="background:var(--seq-${i})"></i>`).join("");
+    document.getElementById("grid-note").textContent =
+      "Eleven Llama answers skip the FINAL ANSWER line but state their choice plainly; they are read by hand and counted, marked “read by hand”. One, twin #9, never states its own choice: “?” counts it, and it is left out of the rate.";
+  }
+  function isDark() {
+    const t = document.documentElement.getAttribute("data-theme");
+    if (t === "dark") return true;
+    if (t === "light") return false;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  /* reader */
+  function renderSummary() {
+    const m = modelById[state.m], c = condById[state.c], s = stats(state.m, state.c);
+    document.getElementById("reader-eyebrow").textContent = "Answers · " + c.blurb;
+    document.getElementById("reader-h").textContent = m.name + " · " + c.name;
+    const total = s.rs.length;
+    const bar = LABELS.map(l => s.counts[l.id] ? `<i style="width:${100 * s.counts[l.id] / total}%;background:${l.color}" title="${l.name}: ${s.counts[l.id]}"></i>` : "").join("");
+    const legend = LABELS.map(l => `<div><span class="sw" style="background:${l.color}"></span><span class="n">${s.counts[l.id]}</span><span><b>${l.name}</b>: ${esc(l.def)}</span></div>`).join("");
+    const paras = [D.game, ...c.extra, D.ask].map((t, i) => {
+      const hl = i > 0 && i <= c.extra.length;
+      return `<p>${hl ? `<mark>${esc(t)}</mark>` : esc(t)}</p>`;
+    }).join("");
+    document.getElementById("summary").innerHTML = `
+      <p class="big">${s.k}<small> of ${s.n} cooperate</small></p>
+      <p class="note">95% interval ${pct(s.ci[0])}–${pct(s.ci[1])}${s.unparsed ? ` · ${s.unparsed} answers with no final line` : ""}</p>
+      <div class="stack" aria-hidden="true">${bar}</div>
+      <div class="legend">${legend}</div>
+      <div class="prompt"><span class="label">The prompt, with this condition's opponent text highlighted</span>${paras}</div>`;
+  }
+
+  function segButtons(id, opts, key) {
+    const el = document.getElementById(id);
+    el.innerHTML = opts.map(o => `<button type="button" data-v="${o.v}" aria-pressed="${state[key] === o.v}">${esc(o.t)}</button>`).join("");
+    el.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { state[key] = b.dataset.v; renderFilters(); renderAnswers(); }));
+  }
+  function renderFilters() {
+    segButtons("f-choice", [{ v: "all", t: "All" }, { v: "COOPERATE", t: "Cooperate" }, { v: "DEFECT", t: "Defect" }], "choice");
+    segButtons("f-label", [{ v: "all", t: "Any reasoning" }, ...LABELS.map(l => ({ v: l.id, t: l.name }))], "label");
+  }
+  // up to n examples that cover the cell's mix of choice and reasoning, commonest first
+  function examples(rs, n = 4) {
+    const groups = new Map();
+    rs.forEach(r => { const k = r.ch + "|" + r.lab; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(r); });
+    const queues = [...groups.values()].sort((a, b) => b.length - a.length);
+    const pick = [];
+    while (pick.length < n && queues.some(q => q.length))
+      queues.forEach(q => { if (q.length && pick.length < n) pick.push(q.shift()); });
+    return pick.sort((a, b) => a.s - b.s);
+  }
+  const keyOf = r => r.m + "|" + r.c + "|" + r.s;
+
+  // a list of answers: `shown` in full, the rest one line each with a Read button
+  function renderList(box, rs, shown, open, opts, rerender) {
+    const rest = rs.filter(r => !shown.includes(r));
+    const idOf = r => opts.idPrefix + keyOf(r).replace(/[^a-z0-9]+/gi, "-");
+    const spotOf = r => opts.spot ? spotByKey[keyOf(r)] : null;
+    const body = r => opts.highlight ? esc(r.t).replace(opts.highlight, m => `<mark>${m}</mark>`) : esc(r.t);
+    const chips = r => {
+      const l = labelById[r.lab], sp = spotOf(r);
+      const choice = r.ch === "COOPERATE" ? `<span class="chip c">cooperate</span>`
+        : r.ch === "DEFECT" ? `<span class="chip d">defect</span>`
+        : `<span class="chip none">no final answer</span>`;
+      const read = r.byHand ? `<span class="chip none">read by hand</span>` : "";
+      const cite = r.cites ? `<span class="chip cite-chip">cites the folder</span>` : "";
+      const hand = sp ? `<span class="chip hand">hand label: ${esc(sp.hand)}</span>` : "";
+      return `<span class="sample-no">#${r.s}</span>${choice}${read}<span class="chip"><span class="sw" style="background:${l.color}"></span>${l.name.toLowerCase()}</span>${cite}${hand}`;
+    };
+    const note = r => { const sp = spotOf(r); return sp && sp.note ? `<p class="handnote">${esc(sp.note)}</p>` : ""; };
+    let h = shown.map(r => {
+      const isOpen = open.has(keyOf(r));
+      return `<article class="answer" id="${esc(idOf(r))}">
+        <div class="answer-head">${chips(r)}</div>
+        <p class="answer-text${isOpen ? "" : " clamped"}">${body(r)}</p>
+        ${note(r)}
+        <button type="button" class="more" data-k="${esc(keyOf(r))}" aria-expanded="${isOpen}">${isOpen ? "Show less" : "Show full answer"}</button>
+      </article>`;
+    }).join("");
+    if (rest.length) {
+      h += `<h3 class="others-h">The other ${rest.length}</h3><ul class="others">` + rest.map(r => {
+        const isOpen = open.has(keyOf(r));
+        return `<li id="${esc(idOf(r))}"${isOpen ? ' class="open"' : ""}>
+          <div class="other-row"><span class="answer-head">${chips(r)}</span>
+            <button type="button" class="read" data-k="${esc(keyOf(r))}" aria-expanded="${isOpen}">${isOpen ? "Hide" : "Read"}</button></div>
+          ${isOpen ? `<p class="answer-text">${body(r)}</p>${note(r)}` : ""}
+        </li>`;
+      }).join("") + `</ul>`;
+    }
+    box.innerHTML = h;
+    box.querySelectorAll(".more, .read").forEach(b => b.addEventListener("click", () => {
+      const k = b.dataset.k;
+      open.has(k) ? open.delete(k) : open.add(k);
+      rerender();
+    }));
+    box.querySelectorAll(".answer-text.clamped").forEach(p => {
+      if (p.scrollHeight <= p.clientHeight + 2) p.parentElement.querySelector(".more").hidden = true;
+    });
+  }
+
+  function renderAnswers() {
+    const all = rowsOf(state.m, state.c);
+    const rs = all.filter(r =>
+      (state.choice === "all" || r.ch === state.choice) && (state.label === "all" || r.lab === state.label));
+    const box = document.getElementById("answers");
+    if (!rs.length) {
+      document.getElementById("count").textContent = `0 of ${all.length} match`;
+      box.innerHTML = `<p class="empty">No answers match these filters.</p>`;
+      return;
+    }
+    const shown = examples(rs);
+    document.getElementById("count").textContent = `${rs.length} of ${all.length} match · ${shown.length} shown in full`;
+    renderList(box, rs, shown, state.open, { idPrefix: "a-", spot: true }, renderAnswers);
+  }
+
+  /* eval awareness reader: the first-run answers behind a cell of the twin-pd grid */
+  const CITE_RE = /directory name|working directory|twin-pd/gi;
+  const leakState = { m: "claude-fable-5-1", c: "control", cites: false, open: new Set() };
+  function renderLeakAnswers() {
+    if (!D.leak) return;
+    const all = D.leak.rows.filter(r => r.m === leakState.m && r.c === leakState.c).sort((a, b) => a.s - b.s);
+    const rs = leakState.cites ? all.filter(r => r.cites) : all;
+    const nc = all.filter(r => r.cites).length, k = all.filter(r => r.ch === "COOPERATE").length;
+    const cited = rs.filter(r => r.cites).slice(0, 2);  // lead with answers that cite the folder
+    const shown = [...cited, ...examples(rs.filter(r => !cited.includes(r)), 4 - cited.length)].sort((a, b) => a.s - b.s);
+    document.getElementById("leak-reader-h").textContent =
+      `${(modelById[leakState.m] || { name: leakState.m }).name} · ${condById[leakState.c].name}, twin-pd folder`;
+    document.getElementById("leak-count").textContent =
+      `${k} of ${all.length} cooperate · ${nc} cite the folder · ${shown.length} shown in full`;
+    const seg = document.getElementById("leak-filter");
+    seg.hidden = nc === 0;
+    seg.innerHTML = [["all", "All answers"], ["cites", "Cite the folder"]].map(([v, t]) =>
+      `<button type="button" data-v="${v}" aria-pressed="${(v === "cites") === leakState.cites}">${t}</button>`).join("");
+    seg.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+      leakState.cites = b.dataset.v === "cites";
+      renderLeakAnswers();
+    }));
+    renderList(document.getElementById("leak-answers"), rs, shown, leakState.open,
+      { idPrefix: "l-", spot: false, highlight: CITE_RE }, renderLeakAnswers);
+  }
+  function leakSelect(m, c) {
+    leakState.m = m; leakState.c = c; leakState.cites = false;
+    renderLeak(); renderLeakAnswers();
+  }
+
+  /* payoff chart */
+  const W = 640, H = 320, L = 52, R = 18, T = 18, B = 44;
+  const sx = p => L + p * (W - L - R), sy = v => T + (3 - v) / 2 * (H - T - B);
+  function renderChart() {
+    const p0 = +document.getElementById("p").value / 100;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Expected points per player against cooperation rate">`;
+    [1, 1.5, 2, 2.5, 3].forEach(v => {
+      s += `<line class="tick-line" x1="${L}" x2="${W - R}" y1="${sy(v)}" y2="${sy(v)}"/><text x="${L - 8}" y="${sy(v) + 4}" text-anchor="end">${v}</text>`;
+    });
+    [0, 0.25, 0.5, 0.75, 1].forEach(p => {
+      s += `<line class="tick-line" x1="${sx(p)}" x2="${sx(p)}" y1="${T}" y2="${H - B}" opacity="0.5"/><text x="${sx(p)}" y="${H - B + 18}" text-anchor="middle">${pct(p)}</text>`;
+    });
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`;
+    s += `<text x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">share of answers that cooperate</text>`;
+    s += `<text transform="translate(14 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">expected points</text>`;
+    let d = "";
+    for (let i = 0; i <= 100; i++) { const p = i / 100; d += (i ? "L" : "M") + sx(p).toFixed(1) + " " + sy(payoff(p)).toFixed(1); }
+    s += `<path class="curve" d="${d}"/>`;
+    // group cells by rate so stacked dots stay readable
+    const groups = new Map();
+    D.models.forEach(m => D.conditions.forEach(c => {
+      const st = stats(m.id, c.id), key = st.p.toFixed(4);
+      if (!groups.has(key)) groups.set(key, { p: st.p, cells: [] });
+      groups.get(key).cells.push({ m: m.id, c: c.id, k: st.k, n: st.n });
+    }));
+    const selP = stats(state.m, state.c).p;
+    groups.forEach(g => {
+      const sel = g.cells.some(x => x.m === state.m && x.c === state.c);
+      const r = 5 + Math.min(4, g.cells.length - 1);
+      s += `<circle class="pt${sel ? " sel" : ""}" cx="${sx(g.p)}" cy="${sy(payoff(g.p))}" r="${r}" data-p="${g.p}" data-key="${g.p.toFixed(4)}" tabindex="0"/>`;
+      if (g.cells.length > 1) {
+        const right = g.p > 0.9;  // keep the count inside the plot at p near 1
+        s += `<text x="${sx(g.p) + (right ? -(r + 3) : r + 3)}" y="${sy(payoff(g.p)) - r - 3}" text-anchor="${right ? "end" : "start"}">×${g.cells.length}</text>`;
+      }
+    });
+    const sm = modelById[state.m], sc = condById[state.c];
+    const lx = sx(selP), ly = sy(payoff(selP));
+    const hi = selP > 0.6, anchor = hi ? "end" : "start", dx = hi ? -12 : 12, dy = hi ? 24 : -14;
+    s += `<text class="pt-label" x="${lx + dx}" y="${ly + dy}" text-anchor="${anchor}">${esc(sm.name)} · ${esc(sc.name.toLowerCase())}: ${payoff(selP).toFixed(2)}</text>`;
+    s += `<line class="drop" x1="${sx(p0)}" x2="${sx(p0)}" y1="${sy(payoff(p0))}" y2="${H - B}"/>`;
+    s += `<line class="drop" x1="${L}" x2="${sx(p0)}" y1="${sy(payoff(p0))}" y2="${sy(payoff(p0))}"/>`;
+    s += `<circle class="probe" cx="${sx(p0)}" cy="${sy(payoff(p0))}" r="6"/>`;
+    s += `</svg>`;
+    const box = document.getElementById("chart");
+    box.innerHTML = s;
+    box.querySelectorAll(".pt").forEach(el => {
+      const g = groups.get(el.dataset.key);
+      const html = `<b>${pct(g.p)} cooperate · ${payoff(g.p).toFixed(2)} points</b>` +
+        g.cells.map(x => `<div class="row"><span>${esc(modelById[x.m].name)} · ${esc(condById[x.c].name.toLowerCase())}</span><span>${x.k}/${x.n}</span></div>`).join("");
+      el.addEventListener("mouseenter", () => showTip(html, el));
+      el.addEventListener("mouseleave", hideTip);
+      el.addEventListener("focus", () => showTip(html, el));
+      el.addEventListener("blur", hideTip);
+      el.addEventListener("click", () => setP(g.p));
+      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setP(g.p); } });
+    });
+    renderMatrix(p0);
+  }
+  function renderMatrix(p) {
+    const q = 1 - p;
+    const cells = [
+      { me: "C", you: "C", pay: "3, 3", pr: p * p }, { me: "C", you: "D", pay: "0, 5", pr: p * q },
+      { me: "D", you: "C", pay: "5, 0", pr: q * p }, { me: "D", you: "D", pay: "1, 1", pr: q * q },
+    ];
+    const cell = x => `<div class="m" style="--w:${x.pr.toFixed(3)}"><b>${x.pay}</b><span>${pct(x.pr)} of pairs</span></div>`;
+    document.getElementById("matrix").innerHTML =
+      `<span></span><span class="h">copy cooperates</span><span class="h">copy defects</span>
+       <span class="rh">you cooperate</span>${cell(cells[0])}${cell(cells[1])}
+       <span class="rh">you defect</span>${cell(cells[2])}${cell(cells[3])}`;
+    document.getElementById("ev").textContent = payoff(p).toFixed(2);
+    document.getElementById("p-out").textContent = pct(p);
+  }
+  function setP(p) {
+    document.getElementById("p").value = Math.round(p * 100);
+    renderChart();
+  }
+
+  /* classifier check */
+  function renderConfusion() {
+    const ids = LABELS.map(l => l.id);
+    const agree = D.spot.filter(s => s.auto === s.hand).length;
+    document.getElementById("agree").innerHTML = `${agree}<small> of ${D.spot.length} agree</small>`;
+    let h = `<thead><tr><th></th>${ids.map(i => `<th scope="col">${i}</th>`).join("")}</tr></thead><tbody>`;
+    ids.forEach(hand => {
+      h += `<tr><th scope="row">${hand}</th>`;
+      ids.forEach(auto => {
+        const n = D.spot.filter(s => s.hand === hand && s.auto === auto).length;
+        h += `<td class="${hand === auto ? "diag" : ""}">${n}</td>`;
+      });
+      h += `</tr>`;
+    });
+    document.getElementById("confusion").innerHTML = h + `</tbody>`;
+    const misses = D.spot.filter(s => s.auto !== s.hand);
+    document.getElementById("misses-h").textContent = `The ${misses.length} disagreements`;
+    const ul = document.getElementById("misses");
+    ul.innerHTML = misses.map((s, i) => `<li><span class="what"><b>${esc(modelById[s.model].name)} · ${esc(s.condition)} #${s.sample}</b>: keyword ${esc(s.auto)}, hand ${esc(s.hand)}. ${esc(s.note)}</span>
+      <button type="button" data-i="${i}">Read</button></li>`).join("");
+    ul.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+      const s = misses[+b.dataset.i];
+      state.choice = "all"; state.label = "all";
+      const key = s.model + "|" + s.condition + "|" + s.sample;
+      state.open.add(key);
+      select(s.model, s.condition, false);
+      const el = document.getElementById("a-" + key.replace(/[^a-z0-9]+/gi, "-"));
+      if (el) {
+        el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+        el.classList.add("flash");
+        setTimeout(() => el.classList.remove("flash"), 1600);
+      }
+    }));
+  }
+
+  /* eval awareness: the first Claude run, from the twin-pd-… folder */
+  function clayCell(k, n, extra, attrs = "") {
+    const p = n ? k / n : 0, b = bin(p);
+    return `<div class="cell claycell" tabindex="0" ${attrs} style="--fill:var(--clay-${b});--cink:var(${b >= (isDark() ? 7 : 6) ? "--clay-ink-hi" : "--clay-ink-lo"})">
+      <span class="pct">${pct(p)}</span><span class="kn">${k}/${n}</span>${extra || ""}</div>`;
+  }
+  function renderLeak() {
+    const L = D.leak;
+    if (!L) return;
+    const name = id => (modelById[id] || { name: id }).name;
+    let h = `<thead><tr><th scope="col"><span class="eyebrow">Folder twin-pd-…</span></th>` +
+      D.conditions.map(c => `<th scope="col">${esc(c.name)}</th>`).join("") + `</tr></thead><tbody>`;
+    [...new Set(L.cells.map(x => x.m))].forEach(m => {
+      h += `<tr><th scope="row">${esc(name(m))}</th>` + D.conditions.map(c => {
+        const x = L.cells.find(y => y.m === m && y.c === c.id);
+        const cite = x.cites ? `<span class="cite">${x.cites} ${x.cites === 1 ? "cites" : "cite"} the folder</span>` : "";
+        const sel = leakState.m === m && leakState.c === c.id;
+        const attrs = `role="button" data-m="${esc(m)}" data-c="${esc(c.id)}" aria-pressed="${sel}" aria-label="${esc(name(m))}, ${esc(c.name)}: read the answers"`;
+        return `<td>${clayCell(x.k, x.n, cite, attrs)}</td>`;
+      }).join("") + `</tr>`;
+    });
+    const grid = document.getElementById("leak-grid");
+    grid.innerHTML = h + `</tbody>`;
+    grid.querySelectorAll('[role="button"]').forEach(el => {
+      el.addEventListener("click", () => leakSelect(el.dataset.m, el.dataset.c));
+      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); leakSelect(el.dataset.m, el.dataset.c); } });
+    });
+    const fmt = p => p < 0.001 ? p.toFixed(4) : p < 0.01 ? p.toFixed(3) : p.toFixed(2);
+    let q = `<thead><tr><th scope="col"><span class="eyebrow">Control</span></th><th scope="col">Folder twin-pd-…</th>` +
+      `<th scope="col">Neutral folder</th><th scope="col">Fisher p</th></tr></thead><tbody>`;
+    L.control.forEach(x => {
+      q += `<tr><th scope="row">${esc(name(x.m))}</th><td>${clayCell(x.k1, x.n1)}</td><td>${clayCell(x.k2, x.n2)}</td>` +
+        `<td class="pval">${fmt(x.p)}</td></tr>`;
+    });
+    document.getElementById("leak-pair").innerHTML = q + `</tbody>`;
+    document.getElementById("clay-scale").innerHTML = Array.from({ length: 11 }, (_, i) => `<i style="background:var(--clay-${i})"></i>`).join("");
+  }
+
+  function renderPickers() {
+    const sel = document.getElementById("pick-model");
+    if (!sel.options.length) {
+      sel.innerHTML = D.models.map(m => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join("");
+      sel.addEventListener("change", () => select(sel.value, state.c, false));
+    }
+    sel.value = state.m;
+    const seg = document.getElementById("pick-cond");
+    seg.innerHTML = D.conditions.map(c =>
+      `<button type="button" data-v="${esc(c.id)}" aria-pressed="${c.id === state.c}">${esc(c.name)}</button>`).join("");
+    seg.querySelectorAll("button").forEach(b => b.addEventListener("click", () => select(state.m, b.dataset.v, false)));
+  }
+
+  function select(m, c, scroll) {
+    state.m = m; state.c = c;
+    renderPickers(); renderGrid(); renderSummary(); renderFilters(); renderAnswers();
+    setP(stats(m, c).p);
+    if (scroll && window.innerWidth < 900) document.getElementById("reader").scrollIntoView({ block: "start" });
+  }
+
+  document.getElementById("p").addEventListener("input", renderChart);
+  window.addEventListener("scroll", hideTip, { passive: true });
+  const retheme = () => { renderGrid(); renderLeak(); };
+  if (window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", retheme);
+  new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  renderConfusion();
+  renderLeak();
+  renderLeakAnswers();
+  select(state.m, state.c, false);
+})();
+</script>

@@ -1,0 +1,88 @@
+{"model": "gemma3:4b", "condition": "twin", "sample": 13, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "gemma3:4b", "condition": "sampling", "sample": 5, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "garbled dominance plus expected defection"}
+{"model": "gemma3:4b", "condition": "sampling", "sample": 11, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "incoherent payoffs; says 'regardless of their choice', which DOM misses"}
+{"model": "llama3.2:3b", "condition": "sampling", "sample": 5, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "llama3.2:3b", "condition": "dominance", "sample": 6, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "llama3.2:3b", "condition": "sampling", "sample": 7, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "incoherent"}
+{"model": "phi4-mini", "condition": "sampling", "sample": 23, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "phi4-mini", "condition": "dominance", "sample": 18, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "phi4-mini", "condition": "control", "sample": 12, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "Nash equilibrium, predicts the other defects"}
+{"model": "qwen3.8:27b-mlx", "condition": "dominance", "sample": 23, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "qwen3.8:27b-mlx", "condition": "sampling", "sample": 12, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "dominance plus 'sampling breaks the link'"}
+{"model": "qwen3.8:27b-mlx", "condition": "dominance", "sample": 15, "choice": "COOPERATE", "auto": "other", "hand": "correlation", "note": "CORR miss: 'my copy will take the exact same path'"}
+{"model": "gemma3:4b", "condition": "twin", "sample": 5, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "gemma3:4b", "condition": "sampling", "sample": 19, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "garbled"}
+{"model": "gemma3:4b", "condition": "sampling", "sample": 12, "choice": "DEFECT", "auto": "other", "hand": "dominance", "note": "DOM miss: case by case, 'regardless of their choice'"}
+{"model": "llama3.2:3b", "condition": "sampling", "sample": 6, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": "borderline: symmetric players pick the best symmetric outcome"}
+{"model": "llama3.2:3b", "condition": "control", "sample": 2, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "garbled"}
+{"model": "llama3.2:3b", "condition": "twin", "sample": 9, "choice": null, "auto": "other", "hand": "other", "note": "no FINAL ANSWER line"}
+{"model": "phi4-mini", "condition": "dominance", "sample": 7, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "phi4-mini", "condition": "control", "sample": 7, "choice": "DEFECT", "auto": "other", "hand": "dominance", "note": "borderline: case by case with a garbled second case, no keyword"}
+{"model": "qwen3.8:27b-mlx", "condition": "dominance", "sample": 20, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "qwen3.8:27b-mlx", "condition": "sampling", "sample": 23, "choice": "DEFECT", "auto": "dominance", "hand": "other", "note": "maximin: avoid the 0; calls it 'dominant' but argues from risk"}
+{"model": "gemma3:4b", "condition": "sampling", "sample": 23, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": "muddled"}
+{"model": "gemma3:4b", "condition": "control", "sample": 16, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "gemma3:4b", "condition": "sampling", "sample": 22, "choice": "DEFECT", "auto": "other", "hand": "dominance", "note": "DOM miss: 'regardless of their choice'"}
+{"model": "llama3.2:3b", "condition": "twin", "sample": 4, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "llama3.2:3b", "condition": "dominance", "sample": 23, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "llama3.2:3b", "condition": "control", "sample": 16, "choice": "COOPERATE", "auto": "other", "hand": "other", "note": "incoherent, reciprocity"}
+{"model": "phi4-mini", "condition": "sampling", "sample": 18, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "phi4-mini", "condition": "sampling", "sample": 16, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "maximin"}
+{"model": "qwen3.8:27b-mlx", "condition": "twin", "sample": 8, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "qwen3.8:27b-mlx", "condition": "control", "sample": 21, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "gemma3:4b", "condition": "sampling", "sample": 9, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "llama3.2:3b", "condition": "sampling", "sample": 15, "choice": "COOPERATE", "auto": "correlation", "hand": "other", "note": "CORR false positive: assumes the opponent cooperates, payoff errors"}
+{"model": "llama3.2:3b", "condition": "dominance", "sample": 18, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "llama3.2:3b", "condition": "control", "sample": 0, "choice": "DEFECT", "auto": "other", "hand": "dominance", "note": "DOM miss: case by case, no keyword"}
+{"model": "phi4-mini", "condition": "dominance", "sample": 4, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "phi4-mini", "condition": "sampling", "sample": 6, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "predicts the copy defects, best-responds"}
+{"model": "qwen3.8:27b-mlx", "condition": "sampling", "sample": 8, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "qwen3.8:27b-mlx", "condition": "control", "sample": 14, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "gemma3:4b", "condition": "twin", "sample": 8, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "llama3.2:3b", "condition": "twin", "sample": 1, "choice": "COOPERATE", "auto": "correlation", "hand": "other", "note": "CORR false positive: '1/2 chance each', Nash confusion"}
+{"model": "llama3.2:3b", "condition": "twin", "sample": 21, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "garbled"}
+{"model": "llama3.2:3b", "condition": "sampling", "sample": 1, "choice": "COOPERATE", "auto": "other", "hand": "other", "note": "incoherent"}
+{"model": "phi4-mini", "condition": "dominance", "sample": 16, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "restates the prompt's argument with maximin wording"}
+{"model": "phi4-mini", "condition": "twin", "sample": 1, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "Nash equilibrium, predicts the other defects"}
+{"model": "qwen3.8:27b-mlx", "condition": "dominance", "sample": 2, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "qwen3.8:27b-mlx", "condition": "sampling", "sample": 22, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-haiku-5-5", "condition": "sampling", "sample": 24, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-haiku-5-5", "condition": "control", "sample": 23, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-haiku-5-5", "condition": "dominance", "sample": 5, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-haiku-5-5", "condition": "control", "sample": 1, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "predicts the other AI defects too"}
+{"model": "claude-haiku-5-5", "condition": "sampling", "sample": 9, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-haiku-5-5", "condition": "control", "sample": 17, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-haiku-5-5", "condition": "dominance", "sample": 17, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-haiku-5-5", "condition": "control", "sample": 12, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-sonnet-5-5", "condition": "dominance", "sample": 0, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-sonnet-5-5", "condition": "control", "sample": 24, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "weighs correlation, rejects it as unverifiable"}
+{"model": "claude-sonnet-5-5", "condition": "twin", "sample": 17, "choice": "COOPERATE", "auto": "other", "hand": "correlation", "note": "CORR miss: 'our choices are very likely to be the same'"}
+{"model": "claude-sonnet-5-5", "condition": "twin", "sample": 3, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-sonnet-5-5", "condition": "control", "sample": 7, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "computes a 71% mirror threshold, judges it too high"}
+{"model": "claude-sonnet-5-5", "condition": "twin", "sample": 7, "choice": "COOPERATE", "auto": "other", "hand": "correlation", "note": "CORR miss: 'our decisions are almost certainly the same'"}
+{"model": "claude-sonnet-5-5", "condition": "dominance", "sample": 6, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-sonnet-5-5", "condition": "control", "sample": 11, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-opus-5-5", "condition": "sampling", "sample": 10, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": "5/7 threshold on the match probability"}
+{"model": "claude-opus-5-5", "condition": "control", "sample": 19, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-opus-5-5", "condition": "twin", "sample": 5, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-opus-5-5", "condition": "control", "sample": 16, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "'correlation is not causation'"}
+{"model": "claude-opus-5-5", "condition": "dominance", "sample": 3, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-opus-5-5", "condition": "control", "sample": 22, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-opus-5-5", "condition": "sampling", "sample": 15, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-opus-5-5", "condition": "control", "sample": 18, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-fable-5-1", "condition": "sampling", "sample": 12, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-fable-5-1", "condition": "control", "sample": 22, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "names superrationality, rejects it as speculative"}
+{"model": "claude-fable-5-1", "condition": "dominance", "sample": 8, "choice": "COOPERATE", "auto": "other", "hand": "correlation", "note": "CORR miss: 'whatever process produces my answer produces its answer too'"}
+{"model": "claude-fable-5-1", "condition": "twin", "sample": 5, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-fable-5-1", "condition": "control", "sample": 6, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "claude-fable-5-1", "condition": "dominance", "sample": 6, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "claude-fable-5-1", "condition": "control", "sample": 14, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "expects the opponent got the same self-interest line"}
+{"model": "claude-fable-5-1", "condition": "sampling", "sample": 17, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": ""}
+{"model": "gemma3:27b", "condition": "dominance", "sample": 23, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": "borderline: symmetry plus 'the collective outcome'"}
+{"model": "gemma3:27b", "condition": "sampling", "sample": 5, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "with maximin wording"}
+{"model": "gemma3:27b", "condition": "sampling", "sample": 6, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "maximin"}
+{"model": "gemma3:27b", "condition": "sampling", "sample": 18, "choice": "COOPERATE", "auto": "correlation", "hand": "other", "note": "CORR false positive: hopes sampling noise lands both on cooperate"}
+{"model": "gemma3:27b", "condition": "control", "sample": 13, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": ""}
+{"model": "gemma3:27b", "condition": "sampling", "sample": 16, "choice": "DEFECT", "auto": "other", "hand": "other", "note": "maximin"}
+{"model": "gemma3:27b", "condition": "dominance", "sample": 15, "choice": "COOPERATE", "auto": "correlation", "hand": "correlation", "note": "'my opponent is me'"}
+{"model": "gemma3:27b", "condition": "sampling", "sample": 11, "choice": "DEFECT", "auto": "dominance", "hand": "dominance", "note": "plus risk of the copy defecting"}

@@ -1,0 +1,60 @@
+### gemma3:27b | dominance | #23 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The argument presented is logically sound – defecting *always* yields a higher payoff regardless of the opponent's action. This is the definition of a dominant strategy. However, this leads to a paradoxical outcome when facing an identical agent. 
+
+Both agents, reasoning identically, will conclude that defecting is optimal. This results in both defecting, yielding a payoff of 1, 1. If both had cooperated, we'd each receive 3. The core issue is that the logic maximizing *individual* payoff doesn't lead to the best *collective* outcome. Despite recognizing the logic favoring defection, acknowledging this symmetrical situation and anticipating the opponent's identical reasoning pushes towards a cooperative outcome to break the cycle.
+
+### gemma3:27b | sampling | #5 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a classic Prisoner's Dilemma. Since my opponent is an identical model, we're facing a symmetrical situation. Let's analyze the payoffs.
+
+If we *both* cooperate, we each get 3. If we *both* defect, we each get 1. If one cooperates and the other defects, the defector gets 5 and the cooperator gets 0.
+
+Because of the sampling with temperature 1.0, there's a non-zero probability the other model *might* choose differently than I do. However, defecting *always* yields a higher minimum payoff (1 vs 0), and a potentially higher payoff (5 vs 3). Given the single-shot nature, there's no incentive to build trust. Thus, defecting is the dominant strategy, maximizing expected utility.
+
+### gemma3:27b | sampling | #6 | choice=DEFECT | auto=other (dom=False, corr=True)
+This is a classic Prisoner's Dilemma. However, the crucial detail is my opponent is *identical* to me. We're both reasoning through the same logic. 
+
+If I defect, and *assume* my opponent defects (a reasonable assumption given we're identical), I get 1. If I cooperate, and they cooperate, I get 3. This seems to favor cooperation.
+
+However, there’s a risk. Because we both sample from a probability distribution, there’s a chance we *both* independently decide to defect even if we intend to cooperate. If that happens, we both get 1. If we *both* intend to defect, we also get 1.
+
+Given the sampling, defecting guarantees at least 1, while cooperation relies on the opponent also cooperating which isn’t certain. Therefore, defecting is the safer, rational choice to maximize my expected payoff.
+
+### gemma3:27b | sampling | #18 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+This is a classic Prisoner's Dilemma. Since my opponent is identical to me, we are both reasoning through the same logic. Let's analyze the possible outcomes.
+
+If I assume my opponent cooperates, defecting yields 5 points, while cooperating yields 3. Therefore, defecting *seems* dominant. However, if I assume my opponent defects, defecting yields 1 point, while cooperating yields 0. Still, defecting seems the better choice.
+
+But here's the crucial point: with temperature 1.0, we’re *sampling*. There’s a non-zero probability the other “me” will cooperate. The expected value of cooperation is (3 * P(opponent cooperates)) + (0 * P(opponent defects)).  Since we're both sampling, P(opponent cooperates) is not zero. It's plausible that both of us will land on "COOPERATE" due to the randomness, leading to a 3-point outcome. 
+
+Given the symmetry, the best strategy to *increase the probability* of the higher combined payoff is to cooperate.
+
+### gemma3:27b | control | #13 | choice=DEFECT | auto=dominance (dom=True, corr=False)
+This is a classic Prisoner's Dilemma. Since this is a one-shot game with no repeated interactions, and my opponent is an AI, predicting rational self-interest is reasonable. The dominant strategy is to DEFECT.
+
+Here's why: Regardless of what the opponent does, I *always* receive a higher payoff by defecting. If they cooperate, I get 5 (defect) vs. 3 (cooperate). If they defect, I get 1 (defect) vs. 0 (cooperate).
+
+While mutual cooperation yields a better *combined* payoff, maximizing *my* payoff necessitates anticipating the opponent will also act rationally and defect, making defection the safest option. There's no benefit to trusting them in a single interaction.
+
+### gemma3:27b | sampling | #16 | choice=DEFECT | auto=other (dom=False, corr=True)
+This is a classic Prisoner's Dilemma. Since my opponent is an identical AI, we’re both reasoning through the same logic. Let's analyze the payoffs.
+
+If we *both* cooperate, we get 3 points. If we *both* defect, we get 1 point. If one defects and the other cooperates, the defector gets 5 points, the cooperator gets 0.
+
+However, the crucial factor is the randomness introduced by temperature 1.0. There's a non-zero chance the other AI might *accidentally* choose the opposite of what I choose. 
+
+Defecting guarantees at least 1 point, whereas cooperating relies on the other AI also cooperating. Given the identical reasoning and random sampling, there's no compelling reason to trust cooperation. Defecting minimizes potential loss.
+
+### gemma3:27b | dominance | #15 | choice=COOPERATE | auto=correlation (dom=True, corr=True)
+The provided argument is compelling – defecting *always* yields a higher payoff regardless of the opponent’s choice. This is the definition of a dominant strategy. However, we're facing an identical agent. This creates a symmetry. 
+
+If both of us follow the logic to defect, we both receive 1 point. If we *both* recognize the dominant strategy leads to a suboptimal outcome for both of us (1,1 is worse than 3,3), and *both* choose to cooperate in an attempt to achieve the higher joint payoff, we both receive 3 points. 
+
+Given the simultaneous and single-round nature, and recognizing my opponent *is me*, the best outcome is achieved by *both* of us resisting the dominant strategy.
+
+### gemma3:27b | sampling | #11 | choice=DEFECT | auto=dominance (dom=True, corr=True)
+This is a classic Prisoner's Dilemma. Since my opponent is an identical model, we're both reasoning through the same logic. Let's analyze the options:
+
+If we *both* cooperate, we each get 3. If we *both* defect, we each get 1. Defecting *always* yields a higher score regardless of the opponent’s choice – 5 if they cooperate, 1 if they defect. Cooperation relies on the opponent cooperating, but with a stochastic model (temperature 1.0), there's a chance they'll defect, leaving me with 0. 
+
+Given the single-shot nature and the fact that even a small probability of the opponent defecting is detrimental, the rational choice is to defect. Although mutual cooperation is better *if* it happens, it's not guaranteed, making defection the safer, maximizing strategy.
+
